@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -8,7 +9,7 @@ namespace AlgorithmLibrary
 {
     public static class Algorithm
     {
-        public static int[] GetPivotIndexes(int[] arr)
+        public static int[] GetPivotIndexes(in int[] arr)
         {
             var pivotIndexes = new List<int>();
 
@@ -23,28 +24,6 @@ namespace AlgorithmLibrary
                 pivotIndexes.Add(-1);
                 return pivotIndexes.ToArray();
             }
-
-            //var total = 0;
-            //var sumAt = new List<int>();
-            //var leftSum = 0;
-            //var rightSum = 1;
-
-            //for (int i = 0; i < arr.Length; i++)
-            //{
-            //    total += arr[i];
-            //    sumAt.Add(total);
-            //}
-
-            //for (int i = 0; i < arr.Length; i++)
-            //{
-            //    leftSum = sumAt[i] - arr[i];
-            //    rightSum = total - sumAt[i];
-
-            //    if (leftSum == rightSum)
-            //    {
-            //        pivotIndexes.Add(i);
-            //    }
-            //}
 
             var leftSum = 0;
             var rightSum = 0;
@@ -73,18 +52,27 @@ namespace AlgorithmLibrary
             return pivotIndexes.ToArray();
         }
 
-        public static bool IntersecWith(this int[] reference, int[] other) =>
+        public static bool IntersectWith(this int[] reference, in int[] other) =>
             reference[0] < other[1] && reference[1] > other[0];
 
-        public static bool IntersecWith(this ValueTuple<int, int> reference, ValueTuple<int, int> other) =>
+        public static bool IntersectWith(
+            this in ValueTuple<int, int> reference,
+            in ValueTuple<int, int> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
-        public static bool IntersecWith(this ValueTuple<decimal, decimal> reference, ValueTuple<decimal, decimal> other) =>
+        public static bool IntersectWith(
+            this in ValueTuple<decimal, decimal> reference,
+            ValueTuple<decimal, decimal> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
-        public static int[] GetIntersectionValuePair(int[] reference, int[] other)
+        public static bool IntersectWith(
+            this in ValueTuple<TimeSpan, TimeSpan> reference,
+            in ValueTuple<TimeSpan, TimeSpan> other) =>
+            reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
+
+        public static int[] GetIntersectionValuePair(in int[] reference, in int[] other)
         {
-            if (!reference.IntersecWith(other)) return new int[] { };
+            if (!reference.IntersectWith(other)) return new int[] { };
 
             var (start, end) = (
                 reference[0].CompareTo(other[0]) == -1 ? other[0] : reference[0],
@@ -94,34 +82,45 @@ namespace AlgorithmLibrary
             return new[] { start, end };
         }
 
-        public static int[][] GetIntersections(int[][][] arr)
+        public static TimeSpan[] GetIntersectionValuePair(
+            ValueTuple<TimeSpan, TimeSpan> reference,
+            ValueTuple<TimeSpan, TimeSpan> other)
         {
-            List<int[]> intersections = null;
+            if (!reference.IntersectWith(other)) return new TimeSpan[] { };
 
-            for (int first = 0, next = 1; next < arr.Length; first++, next++)
+            var (from, to) = (
+                reference.Item1.CompareTo(other.Item1) == -1 ? other.Item1 : reference.Item1,
+                reference.Item2.CompareTo(other.Item2) == -1 ? reference.Item2 : other.Item2
+            );
+
+            return new[] { from, to };
+        }
+
+        public static int[][] GetIntersections(in int[][][] arr)
+        {
+            if (arr.Length == 1) return arr[0];
+
+            int[][] intersections = null;
+
+            for (int first = 0, next = 1; next < arr.Length; next++)
             {
-                var references = intersections?.ToArray() ?? arr[first];
-                intersections = new List<int[]>();
+                var references = intersections ?? arr[first];
                 var others = arr[next];
 
-                foreach (var reference in references)
-                {
-                    foreach (var other in others)
-                    {
-                        if (reference.IntersecWith(other))
-                        {
-                            intersections.Add(GetIntersectionValuePair(reference, other));
-                        }
-                    }
-                }
+                intersections = GetReferencesAndOthersIntersections(references, others);
 
-                if (intersections.Count == 0)
-                {
-                    break;
-                }
+                if (intersections.Length == 0) break;
             }
 
-            return intersections?.ToArray() ?? new int[][] { };
+            return intersections ?? new int[][] { };
         }
+
+        private static int[][] GetReferencesAndOthersIntersections(
+            IEnumerable<int[]> references, IEnumerable<int[]> others) =>
+            (from reference in references
+             from other in others
+             where reference.IntersectWith(other)
+             select GetIntersectionValuePair(reference, other)
+            ).ToArray();
     }
 }

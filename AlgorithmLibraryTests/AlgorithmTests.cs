@@ -14,7 +14,7 @@ namespace AlgorithmLibrary.Tests
     {
         [DataTestMethod()]
         [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
-        public void GetPivotIndexesTest(int[] arr, int[] expected)
+        public void GetPivotIndexesTest(in int[] arr, in int[] expected)
         {
             var actual = GetPivotIndexes(arr);
 
@@ -41,14 +41,14 @@ namespace AlgorithmLibrary.Tests
         }
 
         [DataTestMethod()]
-        [DynamicData(nameof(IntersecWithTestData), DynamicDataSourceType.Property)]
-        public void IntersecWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)
+        [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
+        public void IntersectWith_Returns_Correct_Result(in int[] reference, in int[] other, in bool expected)
         {
-            var actual = reference.IntersecWith(other);
+            var actual = reference.IntersectWith(other);
             Assert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> IntersecWithTestData
+        public static IEnumerable<object[]> IntersectWithTestData
         {
             get
             {
@@ -62,8 +62,94 @@ namespace AlgorithmLibrary.Tests
         }
 
         [DataTestMethod()]
+        [DynamicData(nameof(IntersectWithTimeSpanTestData), DynamicDataSourceType.Property)]
+        public void IntersectWith_TimeSpan_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in bool expected)
+        {
+            var (referenceFrom, referenceTo) = (reference[0], reference[1]);
+            var (otherFrom, otherTo) = (other[0], other[1]);
+
+            var actual = (referenceFrom, referenceTo).IntersectWith((otherFrom, otherTo));
+            Assert.AreEqual(expected, actual);
+        }
+
+        public static IEnumerable<object[]> IntersectWithTimeSpanTestData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                    },
+                    new []
+                    {
+                        new TimeSpan(3, 0, 0), new TimeSpan(4, 30, 0)
+                    },
+                    true
+                };
+
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                    },
+                    new []
+                    {
+                        new TimeSpan(3, 30, 0), new TimeSpan(4, 30, 0)
+                    },
+                    false
+                };
+            }
+        }
+
+        [DataTestMethod()]
+        [DynamicData(nameof(GetIntersectionTimeSpanValuePairTestData), DynamicDataSourceType.Property)]
+        public void GetIntersectionTimeSpanValuePair_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in TimeSpan[] expected)
+        {
+            var actual = GetIntersectionValuePair((reference[0], reference[1]), (other[0], other[1]));
+            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
+        }
+
+        public static IEnumerable<object[]> GetIntersectionTimeSpanValuePairTestData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                    },
+                    new []
+                    {
+                        new TimeSpan(3, 0, 0), new TimeSpan(4, 30, 0)
+                    },
+                    new []
+                    {
+                        new TimeSpan(3, 0, 0), new TimeSpan(3, 30, 0)
+                    }
+                };
+
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                    },
+                    new []
+                    {
+                        new TimeSpan(3, 30, 0), new TimeSpan(4, 30, 0)
+                    },
+                    new TimeSpan[] { }
+                };
+            }
+        }
+
+        [DataTestMethod()]
         [DynamicData(nameof(GetIntersectionValuePairTestData), DynamicDataSourceType.Property)]
-        public void GetIntersectionValuePair_Returns_Correct_Result(int[] reference, int[] other, int[] expected)
+        public void GetIntersectionValuePair_Returns_Correct_Result(in int[] reference, in int[] other, in int[] expected)
         {
             var actual = GetIntersectionValuePair(reference, other);
             Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
@@ -84,7 +170,7 @@ namespace AlgorithmLibrary.Tests
 
         [DataTestMethod()]
         [DynamicData(nameof(GetIntersectionsTestData), DynamicDataSourceType.Property)]
-        public void GetIntersections_Returns_Correct_Result(int[][][] arr, int[][] expected)
+        public void GetIntersections_Returns_Correct_Result(in int[][][] arr, in int[][] expected)
         {
             var actual = GetIntersections(arr);
 
@@ -159,7 +245,6 @@ namespace AlgorithmLibrary.Tests
                     new int[][] { }
                 };
 
-
                 yield return new object[]
                 {
                     new[]
@@ -213,7 +298,10 @@ namespace AlgorithmLibrary.Tests
                     {
                         new[] { new[] { 7, 14 } },
                     },
-                    new int[][] { }
+                    new[]
+                    {
+                        new[] { 7, 14 },
+                    }
                 };
             }
         }

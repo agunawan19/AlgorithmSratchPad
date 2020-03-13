@@ -10,10 +10,10 @@ using System.Text.Json;
 
 namespace AlgorithmLibrary.Tests
 {
-    [TestClass()]
+    [TestClass]
     public class AlgorithmTests
     {
-        [DataTestMethod()]
+        [DataTestMethod]
         [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
         public void GetPivotIndexes_Returns_Correct_Indexes(in int[] arr, in int[] expected)
         {
@@ -41,7 +41,7 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
         public void IntersectWith_Returns_Correct_Result(in int[] reference, in int[] other, in bool expected)
         {
@@ -62,7 +62,7 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DynamicData(nameof(IntersectWithTimeSpanTestData), DynamicDataSourceType.Property)]
         public void IntersectWith_TimeSpan_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in bool expected)
         {
@@ -105,7 +105,7 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DynamicData(nameof(GetIntersectionTimeSpanValuePairTestData), DynamicDataSourceType.Property)]
         public void GetIntersectionTimeSpanValuePair_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in TimeSpan[] expected)
         {
@@ -151,7 +151,7 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DynamicData(nameof(GetIntersectionValuePairTestData), DynamicDataSourceType.Property)]
         public void GetIntersectionValuePair_Returns_Correct_Result(in int[] reference, in int[] other, in int[] expected)
         {
@@ -173,7 +173,7 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod()]
+        [DataTestMethod]
         [DynamicData(nameof(GetIntersectionsTestData), DynamicDataSourceType.Property)]
         public void GetIntersections_Returns_Correct_Result(in int[][][] arr, in int[][] expected)
         {
@@ -187,7 +187,7 @@ namespace AlgorithmLibrary.Tests
                 string.Empty,
                 (acc, x) => $"{acc}[{string.Join(",", x)}],",
                 allStr => allStr.TrimEnd(new[] { ',' }));
-         
+
             Assert.AreEqual(processedExpected, processedActual);
         }
 
@@ -306,6 +306,81 @@ namespace AlgorithmLibrary.Tests
                     new[]
                     {
                         new[] { 7, 14 },
+                    }
+                };
+            }
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(GetOpenTimeFramesTestData), DynamicDataSourceType.Property)]
+        public void GetOpenTimeFrames_Returns_Correct_Result(
+            in IEnumerable<(TimeSpan, TimeSpan)> dailyEvents,
+            in (TimeSpan, TimeSpan) dailySchedule,
+            in TimeSpan allocatedTime,
+            in IEnumerable<(TimeSpan, TimeSpan)> expected)
+        {
+            var actual = GetOpenTimeFrames(dailyEvents, dailySchedule, allocatedTime).ToList();
+
+            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual));
+            CollectionAssert.AreEqual(expected.ToList(), actual);
+        }
+
+        public static IEnumerable<object[]> GetOpenTimeFramesTestData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    Array.Empty<(TimeSpan, TimeSpan)>(),
+                    (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0)),
+                    new TimeSpan(0, 0, 0),
+                    new[]
+                    {
+                        (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0))
+                    }
+                };
+
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0))
+                    },
+                    (new TimeSpan(7, 0, 0), new TimeSpan(15, 30, 0)),
+                    new TimeSpan(1, 0, 0),
+                    Array.Empty<(TimeSpan, TimeSpan)>()
+                };
+
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        (new TimeSpan(8, 0, 0), new TimeSpan(10, 0, 0)),
+                        (new TimeSpan(13, 0, 0), new TimeSpan(14, 0, 0))
+                    },
+                    (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0)),
+                    new TimeSpan(0, 0, 0),
+                    new[]
+                    {
+                        (new TimeSpan(7, 0, 0), new TimeSpan(8, 0, 0)),
+                        (new TimeSpan(10, 0, 0), new TimeSpan(13, 0, 0)),
+                        (new TimeSpan(14, 0, 0), new TimeSpan(16, 0, 0))
+                    }
+                };
+
+                yield return new object[]
+                {
+                    new[]
+                    {
+                        (new TimeSpan(5, 0, 0), new TimeSpan(12, 30, 0)),
+                        (new TimeSpan(13, 0, 0), new TimeSpan(14, 0, 0)),
+                        (new TimeSpan(15, 0, 0), new TimeSpan(18, 0, 0))
+                    },
+                    (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0)),
+                    new TimeSpan(1, 0, 0),
+                    new[]
+                    {
+                        (new TimeSpan(14, 0, 0), new TimeSpan(15, 0, 0))
                     }
                 };
             }

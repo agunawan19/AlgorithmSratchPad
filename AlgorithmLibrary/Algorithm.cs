@@ -99,5 +99,53 @@ namespace AlgorithmLibrary
              where reference.IntersectWith(other)
              select GetIntersectionValuePair(reference, other)
             ).ToArray();
+
+        public static IEnumerable<(TimeSpan From, TimeSpan To)> GetOpenTimeFrames (
+            in IEnumerable<(TimeSpan From, TimeSpan To)> dailyEvents, 
+            in (TimeSpan From, TimeSpan To) dailySchedule,
+            in TimeSpan allocatedTime)
+        {
+            var openTimeFrames = new List<(TimeSpan From, TimeSpan To)>();
+
+            (TimeSpan From, TimeSpan To)? currentEvent = null;
+            (TimeSpan From, TimeSpan To)? previousEvent = null;
+            (TimeSpan From, TimeSpan To) openTimeFrame;
+
+            var (scheduleFrom, scheduleTo) = dailySchedule;
+            foreach (var dailyEvent in dailyEvents)
+            {
+                currentEvent = dailyEvent;
+
+                var isEventFromStartedAfterScheduleFrom = 
+                    currentEvent.Value.From.CompareTo(scheduleFrom) == 1;
+                if (isEventFromStartedAfterScheduleFrom)
+                {
+                    var timeStartingPoint = previousEvent?.To ?? scheduleFrom;
+
+                    openTimeFrame = (
+                        timeStartingPoint,
+                        timeStartingPoint.Add(currentEvent.Value.From.Subtract(timeStartingPoint))
+                    );
+                    AddToOpenTimeFrameList(openTimeFrames, openTimeFrame, allocatedTime);
+                }
+
+                previousEvent = currentEvent;
+            }
+
+            openTimeFrame = (currentEvent?.To ?? scheduleFrom, scheduleTo);
+            AddToOpenTimeFrameList(openTimeFrames, openTimeFrame, allocatedTime);
+
+            return openTimeFrames;
+        }
+
+        private static void AddToOpenTimeFrameList(in ICollection<(TimeSpan, TimeSpan)> openTimeList, in (TimeSpan From, TimeSpan To) openTimeItem, in TimeSpan allocatedTime)
+        {
+            if (!openTimeItem.HasEnoughTime(allocatedTime)) return;
+
+            openTimeList.Add(openTimeItem);
+        }
+
+        private static bool HasEnoughTime(this (TimeSpan From, TimeSpan To) openTimeFrame, TimeSpan value) =>
+            openTimeFrame.From != openTimeFrame.To && openTimeFrame.To.Subtract(openTimeFrame.From) >= value;
     }
 }

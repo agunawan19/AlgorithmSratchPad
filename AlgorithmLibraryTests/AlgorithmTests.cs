@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static AlgorithmLibrary.Algorithm;
+using System.Text.Json;
 
 namespace AlgorithmLibrary.Tests
 {
@@ -109,6 +110,9 @@ namespace AlgorithmLibrary.Tests
         public void GetIntersectionTimeSpanValuePair_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in TimeSpan[] expected)
         {
             var actual = GetIntersectionValuePair((reference[0], reference[1]), (other[0], other[1]));
+
+            var jsonString = JsonSerializer.Serialize(actual);
+
             Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
         }
 
@@ -152,6 +156,7 @@ namespace AlgorithmLibrary.Tests
         public void GetIntersectionValuePair_Returns_Correct_Result(in int[] reference, in int[] other, in int[] expected)
         {
             var actual = GetIntersectionValuePair(reference, other);
+
             Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
         }
 
@@ -182,7 +187,7 @@ namespace AlgorithmLibrary.Tests
                 string.Empty,
                 (acc, x) => $"{acc}[{string.Join(",", x)}],",
                 allStr => allStr.TrimEnd(new[] { ',' }));
-
+         
             Assert.AreEqual(processedExpected, processedActual);
         }
 
@@ -272,7 +277,7 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new int[][] {  },
+                        new int[][] { },
                         new[] { new[] { 7, 14 } },
                         new[] { new[] { 6, 10 }, new[] { 11, 13 } },
                     },

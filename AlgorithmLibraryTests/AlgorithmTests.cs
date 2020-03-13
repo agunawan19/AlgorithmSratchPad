@@ -15,7 +15,7 @@ namespace AlgorithmLibrary.Tests
     {
         [DataTestMethod()]
         [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
-        public void GetPivotIndexesTest(in int[] arr, in int[] expected)
+        public void GetPivotIndexes_Returns_Correct_Indexes(in int[] arr, in int[] expected)
         {
             var actual = GetPivotIndexes(arr);
 

@@ -11,45 +11,22 @@ namespace AlgorithmLibrary
     {
         public static int[] GetPivotIndexes(in int[] arr)
         {
+            if (arr.Length == 1) return new int[1];
+            if (arr.Length < 3) return new[] { -1 };
+
             var pivotIndexes = new List<int>();
-
-            if (arr.Length == 1)
-            {
-                pivotIndexes.Add(0);
-                return pivotIndexes.ToArray();
-            }
-
-            if (arr.Length < 3)
-            {
-                pivotIndexes.Add(-1);
-                return pivotIndexes.ToArray();
-            }
-
             var leftSum = 0;
-            var rightSum = 0;
-
-            for (int i = 1; i < arr.Length; i++)
-            {
-                rightSum += arr[i];
-            }
+            var rightSum = arr.Skip(1).Aggregate((acc, n) => acc + n);
 
             for (int i = 0, j = 1; j < arr.Length; i++, j++)
             {
                 rightSum -= arr[j];
                 leftSum += arr[i];
 
-                if (leftSum == rightSum)
-                {
-                    pivotIndexes.Add(j);
-                }
+                if (leftSum == rightSum) pivotIndexes.Add(j);
             }
 
-            if (pivotIndexes.Count == 0)
-            {
-                pivotIndexes.Add(-1);
-            }
-
-            return pivotIndexes.ToArray();
+            return pivotIndexes.Count == 0 ? new[] { -1 } : pivotIndexes.ToArray();
         }
 
         public static bool IntersectWith(this int[] reference, in int[] other) =>

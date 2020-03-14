@@ -9,7 +9,7 @@ namespace AlgorithmLibrary
 {
     public static class Algorithm
     {
-        public static int[] GetPivotIndexes(in int[] arr)
+        public static int[] GetPivotIndexes(int[] arr)
         {
             if (arr.Length == 1) return new int[1];
             if (arr.Length < 3) return new[] { -1 };
@@ -29,25 +29,25 @@ namespace AlgorithmLibrary
             return pivotIndexes.Count == 0 ? new[] { -1 } : pivotIndexes.ToArray();
         }
 
-        public static bool IntersectWith(this int[] reference, in int[] other) =>
+        public static bool IntersectWith(this int[] reference, int[] other) =>
             reference[0] < other[1] && reference[1] > other[0];
 
         public static bool IntersectWith(
-            this in ValueTuple<int, int> reference,
-            in ValueTuple<int, int> other) =>
+            this ValueTuple<int, int> reference,
+            ValueTuple<int, int> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
         public static bool IntersectWith(
-            this in ValueTuple<decimal, decimal> reference,
+            this ValueTuple<decimal, decimal> reference,
             ValueTuple<decimal, decimal> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
         public static bool IntersectWith(
-            this in ValueTuple<TimeSpan, TimeSpan> reference,
-            in ValueTuple<TimeSpan, TimeSpan> other) =>
+            this ValueTuple<TimeSpan, TimeSpan> reference,
+            ValueTuple<TimeSpan, TimeSpan> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
-        public static int[] GetIntersectionValuePair(in int[] reference, in int[] other)
+        public static int[] GetIntersectionValuePair(int[] reference, int[] other)
         {
             if (!reference.IntersectWith(other)) return new int[] { };
 
@@ -73,7 +73,7 @@ namespace AlgorithmLibrary
             return new[] { from, to };
         }
 
-        public static int[][] GetIntersections(in int[][][] arr)
+        public static int[][] GetIntersections(int[][][] arr)
         {
             if (arr.Length == 1) return arr[0];
 
@@ -100,10 +100,10 @@ namespace AlgorithmLibrary
              select GetIntersectionValuePair(reference, other)
             ).ToArray();
 
-        public static IEnumerable<(TimeSpan From, TimeSpan To)> GetOpenTimeFrames (
-            in IEnumerable<(TimeSpan From, TimeSpan To)> dailyEvents, 
-            in (TimeSpan From, TimeSpan To) dailySchedule,
-            in TimeSpan allocatedTime)
+        public static IEnumerable<(TimeSpan From, TimeSpan To)> GetOpenTimeFrames(
+            IEnumerable<(TimeSpan From, TimeSpan To)> dailyEvents,
+            (TimeSpan From, TimeSpan To) dailySchedule,
+            TimeSpan allocatedTime)
         {
             var openTimeFrames = new List<(TimeSpan From, TimeSpan To)>();
 
@@ -116,7 +116,7 @@ namespace AlgorithmLibrary
             {
                 currentEvent = dailyEvent;
 
-                var isEventFromStartedAfterScheduleFrom = 
+                var isEventFromStartedAfterScheduleFrom =
                     currentEvent.Value.From.CompareTo(scheduleFrom) == 1;
                 if (isEventFromStartedAfterScheduleFrom)
                 {
@@ -138,7 +138,7 @@ namespace AlgorithmLibrary
             return openTimeFrames;
         }
 
-        private static void AddToOpenTimeFrameList(in ICollection<(TimeSpan, TimeSpan)> openTimeList, in (TimeSpan From, TimeSpan To) openTimeItem, in TimeSpan allocatedTime)
+        private static void AddToOpenTimeFrameList(ICollection<(TimeSpan, TimeSpan)> openTimeList, (TimeSpan From, TimeSpan To) openTimeItem, TimeSpan allocatedTime)
         {
             if (!openTimeItem.HasEnoughTime(allocatedTime)) return;
 

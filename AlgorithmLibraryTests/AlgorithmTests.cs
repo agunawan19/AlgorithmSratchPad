@@ -7,12 +7,16 @@ using System.Text;
 using System.Threading.Tasks;
 using static AlgorithmLibrary.Algorithm;
 using System.Text.Json;
+using System.Globalization;
 
 namespace AlgorithmLibrary.Tests
 {
     [TestClass]
     public class AlgorithmTests
     {
+        private const string Format = @"hh\:mm";
+        private static readonly CultureInfo Culture = System.Globalization.CultureInfo.CurrentCulture;
+
         [DataTestMethod]
         [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
         public void GetPivotIndexes_Returns_Correct_Indexes(in int[] arr, in int[] expected)
@@ -81,11 +85,11 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
                     },
                     new []
                     {
-                        new TimeSpan(3, 0, 0), new TimeSpan(4, 30, 0)
+                        TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
                     },
                     true
                 };
@@ -94,11 +98,11 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
                     },
                     new []
                     {
-                        new TimeSpan(3, 30, 0), new TimeSpan(4, 30, 0)
+                        TimeSpan.ParseExact("03:30", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
                     },
                     false
                 };
@@ -124,15 +128,15 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
                     },
                     new []
                     {
-                        new TimeSpan(3, 0, 0), new TimeSpan(4, 30, 0)
+                        TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
                     },
                     new []
                     {
-                        new TimeSpan(3, 0, 0), new TimeSpan(3, 30, 0)
+                        TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
                     }
                 };
 
@@ -140,13 +144,13 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new TimeSpan(1, 30, 0), new TimeSpan(3, 30, 0),
+                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
                     },
                     new []
                     {
-                        new TimeSpan(3, 30, 0), new TimeSpan(4, 30, 0)
+                        TimeSpan.ParseExact("03:30", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
                     },
-                    new TimeSpan[] { }
+                    Array.Empty<TimeSpan>()
                 };
             }
         }
@@ -182,11 +186,11 @@ namespace AlgorithmLibrary.Tests
             var processedActual = actual.Aggregate(
                 string.Empty,
                 (acc, x) => $"{acc}[{string.Join(",", x)}],",
-                allStr => allStr.TrimEnd(new[] { ',' }));
+                allStr => allStr.TrimEnd(','));
             var processedExpected = expected.Aggregate(
                 string.Empty,
                 (acc, x) => $"{acc}[{string.Join(",", x)}],",
-                allStr => allStr.TrimEnd(new[] { ',' }));
+                allStr => allStr.TrimEnd(','));
 
             Assert.AreEqual(processedExpected, processedActual);
         }
@@ -332,11 +336,11 @@ namespace AlgorithmLibrary.Tests
                 yield return new object[]
                 {
                     Array.Empty<(TimeSpan, TimeSpan)>(),
-                    (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0)),
-                    new TimeSpan(0, 0, 0),
+                    (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture)),
+                    TimeSpan.ParseExact("0", "%m", Culture),
                     new[]
                     {
-                        (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0))
+                        (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture))
                     }
                 };
 
@@ -344,10 +348,10 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0))
+                        (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture))
                     },
-                    (new TimeSpan(7, 0, 0), new TimeSpan(15, 30, 0)),
-                    new TimeSpan(1, 0, 0),
+                    (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("15:30", Format, Culture)),
+                    TimeSpan.ParseExact("1", "%h", Culture),
                     Array.Empty<(TimeSpan, TimeSpan)>()
                 };
 
@@ -355,16 +359,16 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        (new TimeSpan(8, 0, 0), new TimeSpan(10, 0, 0)),
-                        (new TimeSpan(13, 0, 0), new TimeSpan(14, 0, 0))
+                        (TimeSpan.ParseExact("08:00", Format, Culture), TimeSpan.ParseExact("10:00", Format, Culture)),
+                        (TimeSpan.ParseExact("13:00", Format, Culture), TimeSpan.ParseExact("14:00", Format, Culture))
                     },
-                    (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0)),
-                    new TimeSpan(0, 0, 0),
+                    (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture)),
+                    TimeSpan.ParseExact("0", "%m", Culture),
                     new[]
                     {
-                        (new TimeSpan(7, 0, 0), new TimeSpan(8, 0, 0)),
-                        (new TimeSpan(10, 0, 0), new TimeSpan(13, 0, 0)),
-                        (new TimeSpan(14, 0, 0), new TimeSpan(16, 0, 0))
+                        (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("08:00", Format, Culture)),
+                        (TimeSpan.ParseExact("10:00", Format, Culture), TimeSpan.ParseExact("13:00", Format, Culture)),
+                        (TimeSpan.ParseExact("14:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture))
                     }
                 };
 
@@ -372,15 +376,15 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        (new TimeSpan(5, 0, 0), new TimeSpan(12, 30, 0)),
-                        (new TimeSpan(13, 0, 0), new TimeSpan(14, 0, 0)),
-                        (new TimeSpan(15, 0, 0), new TimeSpan(18, 0, 0))
+                        (TimeSpan.ParseExact("05:00", Format, Culture), TimeSpan.ParseExact("12:30", Format, Culture)),
+                        (TimeSpan.ParseExact("13:00", Format, Culture), TimeSpan.ParseExact("14:00", Format, Culture)),
+                        (TimeSpan.ParseExact("15:00", Format, Culture), TimeSpan.ParseExact("18:30", Format, Culture))
                     },
-                    (new TimeSpan(7, 0, 0), new TimeSpan(16, 0, 0)),
-                    new TimeSpan(1, 0, 0),
+                    (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture)),
+                    TimeSpan.ParseExact("1", "%h", Culture),
                     new[]
                     {
-                        (new TimeSpan(14, 0, 0), new TimeSpan(15, 0, 0))
+                        (TimeSpan.ParseExact("14:00", Format, Culture), TimeSpan.ParseExact("15:00", Format, Culture))
                     }
                 };
             }

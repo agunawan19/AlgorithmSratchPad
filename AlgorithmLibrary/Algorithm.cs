@@ -47,6 +47,22 @@ namespace AlgorithmLibrary
             ValueTuple<TimeSpan, TimeSpan> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
+        public static (T From, T To)? GetIntersectionValuePair<T>(
+            (T From, T To) reference, (T From, T To) other)
+            where T : IComparable, IComparable<T>, IEquatable<T>, IFormattable
+        {
+            if (!reference.IntersectWith(other)) return null;
+
+            return (
+                reference.From.CompareTo(other.From) == -1 ? other.From : reference.From,
+                reference.To.CompareTo(other.To) == -1 ? reference.To : other.To
+            );
+        }
+
+        public static bool IntersectWith<T>(this (T From, T To) reference, (T From, T To) other)
+            where T : IComparable, IComparable<T>, IEquatable<T>, IFormattable =>
+            reference.From.CompareTo(other.To) == -1 && reference.To.CompareTo(other.From) == 1;
+
         public static int[] GetIntersectionValuePair(int[] reference, int[] other)
         {
             if (!reference.IntersectWith(other)) return new int[] { };
@@ -59,19 +75,19 @@ namespace AlgorithmLibrary
             return new[] { start, end };
         }
 
-        public static TimeSpan[] GetIntersectionValuePair(
-            ValueTuple<TimeSpan, TimeSpan> reference,
-            ValueTuple<TimeSpan, TimeSpan> other)
-        {
-            if (!reference.IntersectWith(other)) return new TimeSpan[] { };
+        //public static TimeSpan[] GetIntersectionValuePair(
+        //    ValueTuple<TimeSpan, TimeSpan> reference,
+        //    ValueTuple<TimeSpan, TimeSpan> other)
+        //{
+        //    if (!reference.IntersectWith(other)) return new TimeSpan[] { };
 
-            var (from, to) = (
-                reference.Item1.CompareTo(other.Item1) == -1 ? other.Item1 : reference.Item1,
-                reference.Item2.CompareTo(other.Item2) == -1 ? reference.Item2 : other.Item2
-            );
+        //    var (from, to) = (
+        //        reference.Item1.CompareTo(other.Item1) == -1 ? other.Item1 : reference.Item1,
+        //        reference.Item2.CompareTo(other.Item2) == -1 ? reference.Item2 : other.Item2
+        //    );
 
-            return new[] { from, to };
-        }
+        //    return new[] { from, to };
+        //}
 
         public static int[][] GetIntersections(int[][][] arr)
         {
@@ -121,6 +137,11 @@ namespace AlgorithmLibrary
                 if (isEventFromStartedAfterScheduleFrom)
                 {
                     var timeStartingPoint = previousEvent?.To ?? scheduleFrom;
+
+                    openTimeFrame = (
+                        timeStartingPoint,
+                        timeStartingPoint.Add(currentEvent.Value.From.Subtract(timeStartingPoint))
+                    );
 
                     openTimeFrame = (
                         timeStartingPoint,

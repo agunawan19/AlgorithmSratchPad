@@ -51,5 +51,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AlgorithmLibrary\AlgorithmLibrary.csproj">
+      <Project>{c31f8458-2080-4771-ab53-5b08a87a8617}</Project>
+      <Name>AlgorithmLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

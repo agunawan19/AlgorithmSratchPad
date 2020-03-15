@@ -19,7 +19,7 @@ namespace AlgorithmLibrary.Tests
 
         [DataTestMethod]
         [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
-        public void GetPivotIndexes_Returns_Correct_Indexes(in int[] arr, in int[] expected)
+        public void GetPivotIndexes_Returns_Correct_Indexes(int[] arr, int[] expected)
         {
             var actual = GetPivotIndexes(arr);
 
@@ -47,7 +47,7 @@ namespace AlgorithmLibrary.Tests
 
         [DataTestMethod]
         [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
-        public void IntersectWith_Returns_Correct_Result(in int[] reference, in int[] other, in bool expected)
+        public void IntersectWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)
         {
             var actual = reference.IntersectWith(other);
             Assert.AreEqual(expected, actual);
@@ -68,7 +68,7 @@ namespace AlgorithmLibrary.Tests
 
         [DataTestMethod]
         [DynamicData(nameof(IntersectWithTimeSpanTestData), DynamicDataSourceType.Property)]
-        public void IntersectWith_TimeSpan_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in bool expected)
+        public void IntersectWith_TimeSpan_Returns_Correct_Result(TimeSpan[] reference, TimeSpan[] other, bool expected)
         {
             var (referenceFrom, referenceTo) = (reference[0], reference[1]);
             var (otherFrom, otherTo) = (other[0], other[1]);
@@ -109,55 +109,55 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod]
-        [DynamicData(nameof(GetIntersectionTimeSpanValuePairTestData), DynamicDataSourceType.Property)]
-        public void GetIntersectionTimeSpanValuePair_Returns_Correct_Result(in TimeSpan[] reference, in TimeSpan[] other, in TimeSpan[] expected)
-        {
-            var actual = GetIntersectionValuePair((reference[0], reference[1]), (other[0], other[1]));
+        //[DataTestMethod]
+        //[DynamicData(nameof(GetIntersectionTimeSpanValuePairTestData), DynamicDataSourceType.Property)]
+        //public void GetIntersectionTimeSpanValuePair_Returns_Correct_Result(TimeSpan[] reference, TimeSpan[] other, TimeSpan[] expected)
+        //{
+        //    var actual = GetIntersectionValuePair((reference[0], reference[1]), (other[0], other[1]));
 
-            var jsonString = JsonSerializer.Serialize(actual);
+        //    var jsonString = JsonSerializer.Serialize(actual);
 
-            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
-        }
+        //    Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
+        //}
 
-        public static IEnumerable<object[]> GetIntersectionTimeSpanValuePairTestData
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    new[]
-                    {
-                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
-                    },
-                    new []
-                    {
-                        TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
-                    },
-                    new []
-                    {
-                        TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
-                    }
-                };
+        //public static IEnumerable<object[]> GetIntersectionTimeSpanValuePairTestData
+        //{
+        //    get
+        //    {
+        //        yield return new object[]
+        //        {
+        //            new[]
+        //            {
+        //                TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
+        //            },
+        //            new []
+        //            {
+        //                TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
+        //            },
+        //            new []
+        //            {
+        //                TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
+        //            }
+        //        };
 
-                yield return new object[]
-                {
-                    new[]
-                    {
-                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
-                    },
-                    new []
-                    {
-                        TimeSpan.ParseExact("03:30", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
-                    },
-                    Array.Empty<TimeSpan>()
-                };
-            }
-        }
+        //        yield return new object[]
+        //        {
+        //            new[]
+        //            {
+        //                TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
+        //            },
+        //            new []
+        //            {
+        //                TimeSpan.ParseExact("03:30", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
+        //            },
+        //            Array.Empty<TimeSpan>()
+        //        };
+        //    }
+        //}
 
         [DataTestMethod]
         [DynamicData(nameof(GetIntersectionValuePairTestData), DynamicDataSourceType.Property)]
-        public void GetIntersectionValuePair_Returns_Correct_Result(in int[] reference, in int[] other, in int[] expected)
+        public void GetIntersectionValuePair_Returns_Correct_Result(int[] reference, int[] other, int[] expected)
         {
             var actual = GetIntersectionValuePair(reference, other);
 
@@ -178,8 +178,99 @@ namespace AlgorithmLibrary.Tests
         }
 
         [DataTestMethod]
+        [DynamicData(nameof(GetIntersectionValuePairOfIntegerTestData), DynamicDataSourceType.Property)]
+        public void GetIntersectionValuePair_Of_Integer_Returns_Correct_Result(
+            (int From, int To) reference,
+            (int From, int To) other,
+            (int From, int To)? expected)
+        {
+            var actual = GetIntersectionValuePair(reference, other);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        public static IEnumerable<object[]> GetIntersectionValuePairOfIntegerTestData
+        {
+            get
+            {
+                yield return new object[] { (1, 2), (1, 2), (1, 2) };
+                yield return new object[] { (1, 3), (2, 3), (2, 3) };
+                yield return new object[] { (1, 5), (2, 3), (2, 3) };
+                yield return new object[] { (2, 5), (1, 5), (2, 5) };
+                yield return new object[] { (1, 2), (2, 3), null };
+                yield return new object[] { (1, 2), (4, 5), null };
+            }
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(GetIntersectionValuePairOfTimeSpanTestData), DynamicDataSourceType.Property)]
+        public void GetIntersectionValuePair_Of_TimeSpan_Returns_Correct_Result(
+            (TimeSpan From, TimeSpan To) reference,
+            (TimeSpan From, TimeSpan To) other,
+            (TimeSpan From, TimeSpan To)? expected)
+        {
+            var actual = GetIntersectionValuePair(reference, other);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        public static IEnumerable<object[]> GetIntersectionValuePairOfTimeSpanTestData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    GetTimeSpanTuple(("01:00", "02:00")),
+                    GetTimeSpanTuple(("01:00", "02:00")),
+                    GetTimeSpanTuple(("01:00", "02:00"))
+                };
+
+                yield return new object[]
+                {
+                    GetTimeSpanTuple(("01:00", "03:00")),
+                    GetTimeSpanTuple(("02:30", "03:00")),
+                    GetTimeSpanTuple(("02:30", "03:00"))
+                };
+
+                yield return new object[]
+                {
+                    GetTimeSpanTuple(("01:00", "05:00")),
+                    GetTimeSpanTuple(("02:00", "03:00")),
+                    GetTimeSpanTuple(("02:00", "03:00"))
+                };
+
+                yield return new object[]
+                {
+                    GetTimeSpanTuple(("02:00", "05:00")),
+                    GetTimeSpanTuple(("01:00", "05:00")),
+                    GetTimeSpanTuple(("02:00", "05:00"))
+                };
+
+                yield return new object[]
+                {
+                    GetTimeSpanTuple(("01:00", "02:30")),
+                    GetTimeSpanTuple(("02:30", "05:00")),
+                    null
+                };
+
+                yield return new object[]
+                {
+                    GetTimeSpanTuple(("01:00", "02:00")),
+                    GetTimeSpanTuple(("04:00", "05:00")),
+                    null
+                };
+            }
+        }
+
+        private static (TimeSpan From, TimeSpan To) GetTimeSpanTuple((string From, string To) time) =>
+        (
+            TimeSpan.ParseExact(time.From, Format, Culture),
+            TimeSpan.ParseExact(time.To, Format, Culture)
+        );
+
+        [DataTestMethod]
         [DynamicData(nameof(GetIntersectionsTestData), DynamicDataSourceType.Property)]
-        public void GetIntersections_Returns_Correct_Result(in int[][][] arr, in int[][] expected)
+        public void GetIntersections_Returns_Correct_Result(int[][][] arr, int[][] expected)
         {
             var actual = GetIntersections(arr);
 
@@ -318,10 +409,10 @@ namespace AlgorithmLibrary.Tests
         [DataTestMethod]
         [DynamicData(nameof(GetOpenTimeFramesTestData), DynamicDataSourceType.Property)]
         public void GetOpenTimeFrames_Returns_Correct_Result(
-            in IEnumerable<(TimeSpan, TimeSpan)> dailyEvents,
-            in (TimeSpan, TimeSpan) dailySchedule,
-            in TimeSpan allocatedTime,
-            in IEnumerable<(TimeSpan, TimeSpan)> expected)
+            IEnumerable<(TimeSpan, TimeSpan)> dailyEvents,
+            (TimeSpan, TimeSpan) dailySchedule,
+            TimeSpan allocatedTime,
+            IEnumerable<(TimeSpan, TimeSpan)> expected)
         {
             var actual = GetOpenTimeFrames(dailyEvents, dailySchedule, allocatedTime).ToList();
 

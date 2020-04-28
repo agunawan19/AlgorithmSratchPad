@@ -27,7 +27,7 @@ namespace AlgorithmLibrary.Tests
             CollectionAssert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> PivotIndexesTestData
+        private static IEnumerable<object[]> PivotIndexesTestData
         {
             get
             {
@@ -53,7 +53,7 @@ namespace AlgorithmLibrary.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> IntersectWithTestData
+        private static IEnumerable<object[]> IntersectWithTestData
         {
             get
             {
@@ -77,7 +77,7 @@ namespace AlgorithmLibrary.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> IntersectWithTimeSpanTestData
+        private static IEnumerable<object[]> IntersectWithTimeSpanTestData
         {
             get
             {
@@ -164,7 +164,7 @@ namespace AlgorithmLibrary.Tests
             Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
         }
 
-        public static IEnumerable<object[]> GetIntersectionValuePairTestData
+        private static IEnumerable<object[]> GetIntersectionValuePairTestData
         {
             get
             {
@@ -214,7 +214,7 @@ namespace AlgorithmLibrary.Tests
             Assert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> GetIntersectionValuePairOfTimeSpanTestData
+        private static IEnumerable<object[]> GetIntersectionValuePairOfTimeSpanTestData
         {
             get
             {
@@ -286,7 +286,7 @@ namespace AlgorithmLibrary.Tests
             Assert.AreEqual(processedExpected, processedActual);
         }
 
-        public static IEnumerable<object[]> GetIntersectionsTestData
+        private static IEnumerable<object[]> GetIntersectionsTestData
         {
             get
             {
@@ -420,7 +420,7 @@ namespace AlgorithmLibrary.Tests
             CollectionAssert.AreEqual(expected.ToList(), actual);
         }
 
-        public static IEnumerable<object[]> GetOpenTimeFramesTestData
+        private static IEnumerable<object[]> GetOpenTimeFramesTestData
         {
             get
             {

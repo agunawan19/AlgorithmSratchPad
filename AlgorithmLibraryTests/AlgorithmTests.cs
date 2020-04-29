@@ -110,14 +110,25 @@ namespace AlgorithmLibrary.Tests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
-        public void IntersectWith_Generic_Returns_Correct_Result(int[] references, int[] others, bool expected)
+        [DynamicData(nameof(IntersectWithGenericTestData))]
+        public void IntersectWith_Generic_Returns_Correct_Result(string testCaseDescription, (int From, int To) reference, (int From, int To) other,
+            bool expected)
         {
-            var reference = (From: references[0], To: references[1]);
-            var other = (From: others[0], To: others[1]);
+            var actual = reference.IntersectWith(other, false);
+            Assert.AreEqual(expected, actual, testCaseDescription);
+        }
 
-            var actual = reference.IntersectWith(other, isInclusive: true);
-            Assert.AreEqual(expected, actual, $"{reference} <=> {other}");
+        private static IEnumerable<object[]> IntersectWithGenericTestData
+        {
+            get
+            {
+                yield return new object[] { "#1. Should intersect", (From: 1, To: 2), (1, 2), true};
+                yield return new object[] { "#2. Should intersect", (1, 3), (2, 3), true};
+                yield return new object[] { "#3. Should intersect", (1, 5), (2, 3), true};
+                yield return new object[] { "#4. Should intersect", (2, 3), (1, 5), true};
+                yield return new object[] { "#5. Should not intersect", (1, 2), (2, 3), false};
+                yield return new object[] { "#6. Should not intersect", (1, 2), (4, 5), false};
+            }
         }
 
         //[DataTestMethod]

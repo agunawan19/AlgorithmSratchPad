@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static AlgorithmLibrary.Algorithm;
 using System.Text.Json;
 using System.Globalization;
+using System.Security.Cryptography;
 
 namespace AlgorithmLibrary.Tests
 {
@@ -45,7 +46,7 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-        [DataTestMethod]
+
         [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
         public void IntersectWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)
         {
@@ -73,7 +74,7 @@ namespace AlgorithmLibrary.Tests
             var (referenceFrom, referenceTo) = (reference[0], reference[1]);
             var (otherFrom, otherTo) = (other[0], other[1]);
 
-            var actual = (referenceFrom, referenceTo).IntersectWith((otherFrom, otherTo));
+            var actual = (referenceFrom, referenceTo).IntersectWith((otherFrom, otherTo), false);
             Assert.AreEqual(expected, actual);
         }
 
@@ -110,24 +111,58 @@ namespace AlgorithmLibrary.Tests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(IntersectWithGenericTestData))]
-        public void IntersectWith_Generic_Returns_Correct_Result(string testCaseDescription, (int From, int To) reference, (int From, int To) other,
-            bool expected)
+        [DynamicData(nameof(IntersectWithGenericIntTestData))]
+        public void IntersectWith_Generic_Int_Returns_Correct_Result(string testCaseDescription,
+            (int From, int To) reference, (int From, int To) other, bool isInclusive, bool expected)
         {
-            var actual = reference.IntersectWith(other, false);
+            var actual = reference.IntersectWith(other, isInclusive);
             Assert.AreEqual(expected, actual, testCaseDescription);
         }
 
-        private static IEnumerable<object[]> IntersectWithGenericTestData
+        private static IEnumerable<object[]> IntersectWithGenericIntTestData
         {
             get
             {
-                yield return new object[] { "#1. Should intersect", (From: 1, To: 2), (1, 2), true};
-                yield return new object[] { "#2. Should intersect", (1, 3), (2, 3), true};
-                yield return new object[] { "#3. Should intersect", (1, 5), (2, 3), true};
-                yield return new object[] { "#4. Should intersect", (2, 3), (1, 5), true};
-                yield return new object[] { "#5. Should not intersect", (1, 2), (2, 3), false};
-                yield return new object[] { "#6. Should not intersect", (1, 2), (4, 5), false};
+                yield return new object[] { "#1. Should intersect", (1, 2), (1, 2), false, true };
+                yield return new object[] { "#2. Should intersect", (1, 3), (2, 3), false, true };
+                yield return new object[] { "#3. Should intersect", (1, 5), (2, 3), false, true };
+                yield return new object[] { "#4. Should intersect", (2, 3), (1, 5), false, true };
+                yield return new object[] { "#5. Should not intersect", (1, 2), (2, 3), false, false };
+                yield return new object[] { "#6. Should not intersect", (1, 2), (4, 5), false, false };
+            }
+        }
+
+        [DataTestMethod]
+        [DynamicData(nameof(IntersectWithGenericDateTimeTestData))]
+        public void IntersectWith_Generic_DateTime_Returns_Correct_Result(string testCaseDescription,
+            (string From, string To) reference, (string From, string To) other, bool isInclusive, bool expected)
+        {
+            var referenceDateTime = (Convert.ToDateTime(reference.From), Convert.ToDateTime(reference.To));
+            var otherDateTime = (Convert.ToDateTime(other.From), Convert.ToDateTime(other.To));
+            var actual = referenceDateTime.IntersectWith(otherDateTime, isInclusive);
+            Assert.AreEqual(expected, actual, testCaseDescription);
+        }
+
+        private static IEnumerable<object[]> IntersectWithGenericDateTimeTestData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    "#1. Should intersect", ("1/1/2000", "1/31/2000"), ("1/31/2000", "2/28/2000"), true, true
+                };
+                yield return new object[]
+                {
+                    "#2. Should not intersect", ("1/1/2000", "1/31/2000"), ("1/31/2000", "2/28/2000"), false, false
+                };
+                yield return new object[]
+                {
+                    "#3. Should intersect", ("1/31/2000", "2/28/2000"), ("1/1/2000", "1/31/2000"), true, true
+                };
+                yield return new object[]
+                {
+                    "#4. Should not intersect", ("1/31/2000", "2/28/2000"), ("1/1/2000", "1/31/2000"), false, false
+                };
             }
         }
 
@@ -501,6 +536,18 @@ namespace AlgorithmLibrary.Tests
                     }
                 };
             }
+        }
+
+        [TestMethod]
+        [DataRow("#1. Should return true", 2, 1, 3, true, true)]
+        [DataRow("#2. Should return true", 2, 1, 3, false, true)]
+        [DataRow("#3. Should return true", 2, 1, 2, true, true)]
+        [DataRow("#4. Should return false", 2, 1, 2, false, false)]
+        public void IsBetweenTest(string testCaseDescription, int valueToCheck, int start, int end,
+            bool isInclusive, bool expected)
+        {
+            var actual = valueToCheck.IsBetween(start, end, isInclusive);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

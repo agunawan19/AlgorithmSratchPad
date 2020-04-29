@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,11 +48,16 @@ namespace AlgorithmLibrary
             ValueTuple<TimeSpan, TimeSpan> other) =>
             reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
 
+        public static bool IntersectWith(
+            this ValueTuple<DateTime, DateTime> reference,
+            ValueTuple<DateTime, DateTime> other) =>
+            reference.Item1 < other.Item2 && reference.Item2 > other.Item1;
+
         public static (T From, T To)? GetIntersectionValuePair<T>(
             (T From, T To) reference, (T From, T To) other)
             where T : IComparable, IComparable<T>, IEquatable<T>, IFormattable
         {
-            if (!reference.IntersectWith(other)) return null;
+            if (!reference.IntersectWith(other, isInclusive: false)) return null;
 
             return (
                 reference.From.CompareTo(other.From) == -1 ? other.From : reference.From,
@@ -59,9 +65,11 @@ namespace AlgorithmLibrary
             );
         }
 
-        public static bool IntersectWith<T>(this (T From, T To) reference, (T From, T To) other)
+        public static bool IntersectWith<T>(this (T From, T To) reference, (T From, T To) other, bool isInclusive = true)
             where T : IComparable, IComparable<T>, IEquatable<T>, IFormattable =>
-            reference.From.CompareTo(other.To) == -1 && reference.To.CompareTo(other.From) == 1;
+            reference.From.CompareTo(other.To) <= (isInclusive ? 0 : -1) &&
+            reference.To.CompareTo(other.From) >= (isInclusive ? 0 : 1);
+
 
         public static int[] GetIntersectionValuePair(int[] reference, int[] other)
         {
@@ -142,11 +150,6 @@ namespace AlgorithmLibrary
                         timeStartingPoint,
                         timeStartingPoint.Add(currentEvent.Value.From.Subtract(timeStartingPoint))
                     );
-
-                    openTimeFrame = (
-                        timeStartingPoint,
-                        timeStartingPoint.Add(currentEvent.Value.From.Subtract(timeStartingPoint))
-                    );
                     AddToOpenTimeFrameList(openTimeFrames, openTimeFrame, allocatedTime);
                 }
 
@@ -168,5 +171,18 @@ namespace AlgorithmLibrary
 
         private static bool HasEnoughTime(this (TimeSpan From, TimeSpan To) openTimeFrame, TimeSpan value) =>
             openTimeFrame.From != openTimeFrame.To && openTimeFrame.To.Subtract(openTimeFrame.From) >= value;
+
+        public static bool IsBetween<T>(this T value, T lowerBound, T upperBound, bool isInclusive = true)
+            where T : struct, IComparable, IComparable<T>, IConvertible, IEquatable<T>, IFormattable => 
+            isInclusive ?
+            value.CompareTo(lowerBound) >= 0 && value.CompareTo(upperBound) <= 0 :
+            value.CompareTo(lowerBound) > 0 && value.CompareTo(upperBound) < 0;
+        
+        private static Type GetPropertyType(PropertyInfo toPropertyInfo) =>
+            toPropertyInfo.PropertyType.IsGenericType &&
+            toPropertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)
+                ? Nullable.GetUnderlyingType(toPropertyInfo.PropertyType)
+                : toPropertyInfo.PropertyType;
+
     }
 }

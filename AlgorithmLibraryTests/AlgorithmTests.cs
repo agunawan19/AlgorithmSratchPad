@@ -109,6 +109,17 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
+        [DataTestMethod]
+        [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
+        public void IntersectWith_Generic_Returns_Correct_Result(int[] references, int[] others, bool expected)
+        {
+            var reference = (From: references[0], To: references[1]);
+            var other = (From: others[0], To: others[1]);
+
+            var actual = reference.IntersectWith(other, isInclusive: true);
+            Assert.AreEqual(expected, actual, $"{reference} <=> {other}");
+        }
+
         //[DataTestMethod]
         //[DynamicData(nameof(GetIntersectionTimeSpanValuePairTestData), DynamicDataSourceType.Property)]
         //public void GetIntersectionTimeSpanValuePair_Returns_Correct_Result(TimeSpan[] reference, TimeSpan[] other, TimeSpan[] expected)

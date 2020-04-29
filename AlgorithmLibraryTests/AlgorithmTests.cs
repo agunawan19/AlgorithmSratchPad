@@ -46,7 +46,6 @@ namespace AlgorithmLibrary.Tests
             }
         }
 
-
         [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
         public void IntersectWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)
         {
@@ -86,11 +85,13 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
+                        TimeSpan.ParseExact("01:30", Format, Culture),
+                        TimeSpan.ParseExact("03:30", Format, Culture)
                     },
-                    new []
+                    new[]
                     {
-                        TimeSpan.ParseExact("03:00", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
+                        TimeSpan.ParseExact("03:00", Format, Culture),
+                        TimeSpan.ParseExact("04:30", Format, Culture)
                     },
                     true
                 };
@@ -99,11 +100,13 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        TimeSpan.ParseExact("01:30", Format, Culture), TimeSpan.ParseExact("03:30", Format, Culture)
+                        TimeSpan.ParseExact("01:30", Format, Culture),
+                        TimeSpan.ParseExact("03:30", Format, Culture)
                     },
-                    new []
+                    new[]
                     {
-                        TimeSpan.ParseExact("03:30", Format, Culture), TimeSpan.ParseExact("04:30", Format, Culture)
+                        TimeSpan.ParseExact("03:30", Format, Culture),
+                        TimeSpan.ParseExact("04:30", Format, Culture)
                     },
                     false
                 };
@@ -218,7 +221,8 @@ namespace AlgorithmLibrary.Tests
         {
             var actual = GetIntersectionValuePair(reference, other);
 
-            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual), $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
+            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual),
+                $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
         }
 
         private static IEnumerable<object[]> GetIntersectionValuePairTestData
@@ -236,10 +240,8 @@ namespace AlgorithmLibrary.Tests
 
         [DataTestMethod]
         [DynamicData(nameof(GetIntersectionValuePairOfIntegerTestData), DynamicDataSourceType.Property)]
-        public void GetIntersectionValuePair_Of_Integer_Returns_Correct_Result(
-            (int From, int To) reference,
-            (int From, int To) other,
-            (int From, int To)? expected)
+        public void GetIntersectionValuePair_Of_Integer_Returns_Correct_Result((int From, int To) reference,
+            (int From, int To) other, (int From, int To)? expected)
         {
             var actual = GetIntersectionValuePair(reference, other);
 
@@ -261,10 +263,8 @@ namespace AlgorithmLibrary.Tests
 
         [DataTestMethod]
         [DynamicData(nameof(GetIntersectionValuePairOfTimeSpanTestData), DynamicDataSourceType.Property)]
-        public void GetIntersectionValuePair_Of_TimeSpan_Returns_Correct_Result(
-            (TimeSpan From, TimeSpan To) reference,
-            (TimeSpan From, TimeSpan To) other,
-            (TimeSpan From, TimeSpan To)? expected)
+        public void GetIntersectionValuePair_Of_TimeSpan_Returns_Correct_Result((TimeSpan From, TimeSpan To) reference,
+            (TimeSpan From, TimeSpan To) other, (TimeSpan From, TimeSpan To)? expected)
         {
             var actual = GetIntersectionValuePair(reference, other);
 
@@ -277,53 +277,42 @@ namespace AlgorithmLibrary.Tests
             {
                 yield return new object[]
                 {
-                    GetTimeSpanTuple(("01:00", "02:00")),
-                    GetTimeSpanTuple(("01:00", "02:00")),
+                    GetTimeSpanTuple(("01:00", "02:00")), GetTimeSpanTuple(("01:00", "02:00")),
                     GetTimeSpanTuple(("01:00", "02:00"))
                 };
 
                 yield return new object[]
                 {
-                    GetTimeSpanTuple(("01:00", "03:00")),
-                    GetTimeSpanTuple(("02:30", "03:00")),
+                    GetTimeSpanTuple(("01:00", "03:00")), GetTimeSpanTuple(("02:30", "03:00")),
                     GetTimeSpanTuple(("02:30", "03:00"))
                 };
 
                 yield return new object[]
                 {
-                    GetTimeSpanTuple(("01:00", "05:00")),
-                    GetTimeSpanTuple(("02:00", "03:00")),
+                    GetTimeSpanTuple(("01:00", "05:00")), GetTimeSpanTuple(("02:00", "03:00")),
                     GetTimeSpanTuple(("02:00", "03:00"))
                 };
 
                 yield return new object[]
                 {
-                    GetTimeSpanTuple(("02:00", "05:00")),
-                    GetTimeSpanTuple(("01:00", "05:00")),
+                    GetTimeSpanTuple(("02:00", "05:00")), GetTimeSpanTuple(("01:00", "05:00")),
                     GetTimeSpanTuple(("02:00", "05:00"))
                 };
 
                 yield return new object[]
                 {
-                    GetTimeSpanTuple(("01:00", "02:30")),
-                    GetTimeSpanTuple(("02:30", "05:00")),
-                    null
+                    GetTimeSpanTuple(("01:00", "02:30")), GetTimeSpanTuple(("02:30", "05:00")), null
                 };
 
                 yield return new object[]
                 {
-                    GetTimeSpanTuple(("01:00", "02:00")),
-                    GetTimeSpanTuple(("04:00", "05:00")),
-                    null
+                    GetTimeSpanTuple(("01:00", "02:00")), GetTimeSpanTuple(("04:00", "05:00")), null
                 };
             }
         }
 
         private static (TimeSpan From, TimeSpan To) GetTimeSpanTuple((string From, string To) time) =>
-        (
-            TimeSpan.ParseExact(time.From, Format, Culture),
-            TimeSpan.ParseExact(time.To, Format, Culture)
-        );
+            (TimeSpan.ParseExact(time.From, Format, Culture), TimeSpan.ParseExact(time.To, Format, Culture));
 
         [DataTestMethod]
         [DynamicData(nameof(GetIntersectionsTestData), DynamicDataSourceType.Property)]
@@ -331,13 +320,9 @@ namespace AlgorithmLibrary.Tests
         {
             var actual = GetIntersections(arr);
 
-            var processedActual = actual.Aggregate(
-                string.Empty,
-                (acc, x) => $"{acc}[{string.Join(",", x)}],",
+            var processedActual = actual.Aggregate(string.Empty, (acc, x) => $"{acc}[{string.Join(",", x)}],",
                 allStr => allStr.TrimEnd(','));
-            var processedExpected = expected.Aggregate(
-                string.Empty,
-                (acc, x) => $"{acc}[{string.Join(",", x)}],",
+            var processedExpected = expected.Aggregate(string.Empty, (acc, x) => $"{acc}[{string.Join(",", x)}],",
                 allStr => allStr.TrimEnd(','));
 
             Assert.AreEqual(processedExpected, processedActual);
@@ -351,53 +336,38 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
-                        new[] { new[] { 7, 14 } },
+                        new[] { new[] { 6, 10 }, new[] { 11, 13 } }, new[] { new[] { 7, 14 } },
                         new[] { new[] { 7, 8 }, new[] { 10, 12 } },
                     },
-                    new[]
-                    {
-                        new[] { 7, 8 }, new[] { 11, 12 }
-                    }
+                    new[] { new[] { 7, 8 }, new[] { 11, 12 } }
                 };
 
                 yield return new object[]
                 {
                     new[]
                     {
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
+                        new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } },
                         new[] { new[] { 7, 8 }, new[] { 10, 12 } },
                     },
-                    new[]
-                    {
-                        new[] { 7, 8 }, new[] { 11, 12 }
-                    }
+                    new[] { new[] { 7, 8 }, new[] { 11, 12 } }
                 };
 
                 yield return new object[]
                 {
                     new[]
                     {
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
-                        new[] { new[] { 7, 8 }, new[] { 10, 12 } },
-                        new[] { new[] { 11, 12} }
+                        new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } },
+                        new[] { new[] { 7, 8 }, new[] { 10, 12 } }, new[] { new[] { 11, 12 } }
                     },
-                    new[]
-                    {
-                        new[] { 11, 12 }
-                    }
+                    new[] { new[] { 11, 12 } }
                 };
 
                 yield return new object[]
                 {
                     new[]
                     {
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
-                        new[] { new[] { 7, 8 }, new[] { 10, 12 } },
-                        new[] { new[] { 15, 17} }
+                        new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } },
+                        new[] { new[] { 7, 8 }, new[] { 10, 12 } }, new[] { new[] { 15, 17 } }
                     },
                     new int[][] { }
                 };
@@ -406,10 +376,8 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
-                        new[] { new[] { 15, 17} },
-                        new[] { new[] { 7, 8 }, new[] { 10, 12 } },
+                        new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } },
+                        new[] { new[] { 15, 17 } }, new[] { new[] { 7, 8 }, new[] { 10, 12 } },
                     },
                     new int[][] { }
                 };
@@ -418,9 +386,7 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
-                        new int[][] { },
+                        new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } }, new int[][] { },
                     },
                     new int[][] { }
                 };
@@ -429,47 +395,25 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        new int[][] { },
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
+                        new int[][] { }, new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } },
                     },
                     new int[][] { }
                 };
 
                 yield return new object[]
                 {
-                    new[]
-                    {
-                        new[] { new[] { 7, 14 } },
-                        new[] { new[] { 6, 10 }, new[] { 11, 13 } },
-                    },
-                    new[]
-                    {
-                        new[] { 7, 10 }, new[] {11, 13 }
-                    }
+                    new[] { new[] { new[] { 7, 14 } }, new[] { new[] { 6, 10 }, new[] { 11, 13 } }, },
+                    new[] { new[] { 7, 10 }, new[] { 11, 13 } }
                 };
 
-                yield return new object[]
-                {
-                    new[]
-                    {
-                        new[] { new[] { 7, 14 } },
-                    },
-                    new[]
-                    {
-                        new[] { 7, 14 },
-                    }
-                };
+                yield return new object[] { new[] { new[] { new[] { 7, 14 } }, }, new[] { new[] { 7, 14 }, } };
             }
         }
 
         [DataTestMethod]
         [DynamicData(nameof(GetOpenTimeFramesTestData), DynamicDataSourceType.Property)]
-        public void GetOpenTimeFrames_Returns_Correct_Result(
-            IEnumerable<(TimeSpan, TimeSpan)> dailyEvents,
-            (TimeSpan, TimeSpan) dailySchedule,
-            TimeSpan allocatedTime,
-            IEnumerable<(TimeSpan, TimeSpan)> expected)
+        public void GetOpenTimeFrames_Returns_Correct_Result(IEnumerable<(TimeSpan, TimeSpan)> dailyEvents,
+            (TimeSpan, TimeSpan) dailySchedule, TimeSpan allocatedTime, IEnumerable<(TimeSpan, TimeSpan)> expected)
         {
             var actual = GetOpenTimeFrames(dailyEvents, dailySchedule, allocatedTime).ToList();
 
@@ -488,7 +432,8 @@ namespace AlgorithmLibrary.Tests
                     TimeSpan.ParseExact("0", "%m", Culture),
                     new[]
                     {
-                        (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture))
+                        (TimeSpan.ParseExact("07:00", Format, Culture),
+                            TimeSpan.ParseExact("16:00", Format, Culture))
                     }
                 };
 
@@ -496,27 +441,32 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture))
+                        (TimeSpan.ParseExact("07:00", Format, Culture),
+                            TimeSpan.ParseExact("16:00", Format, Culture))
                     },
                     (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("15:30", Format, Culture)),
-                    TimeSpan.ParseExact("1", "%h", Culture),
-                    Array.Empty<(TimeSpan, TimeSpan)>()
+                    TimeSpan.ParseExact("1", "%h", Culture), Array.Empty<(TimeSpan, TimeSpan)>()
                 };
 
                 yield return new object[]
                 {
                     new[]
                     {
-                        (TimeSpan.ParseExact("08:00", Format, Culture), TimeSpan.ParseExact("10:00", Format, Culture)),
-                        (TimeSpan.ParseExact("13:00", Format, Culture), TimeSpan.ParseExact("14:00", Format, Culture))
+                        (TimeSpan.ParseExact("08:00", Format, Culture),
+                            TimeSpan.ParseExact("10:00", Format, Culture)),
+                        (TimeSpan.ParseExact("13:00", Format, Culture),
+                            TimeSpan.ParseExact("14:00", Format, Culture))
                     },
                     (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture)),
                     TimeSpan.ParseExact("0", "%m", Culture),
                     new[]
                     {
-                        (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("08:00", Format, Culture)),
-                        (TimeSpan.ParseExact("10:00", Format, Culture), TimeSpan.ParseExact("13:00", Format, Culture)),
-                        (TimeSpan.ParseExact("14:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture))
+                        (TimeSpan.ParseExact("07:00", Format, Culture),
+                            TimeSpan.ParseExact("08:00", Format, Culture)),
+                        (TimeSpan.ParseExact("10:00", Format, Culture),
+                            TimeSpan.ParseExact("13:00", Format, Culture)),
+                        (TimeSpan.ParseExact("14:00", Format, Culture),
+                            TimeSpan.ParseExact("16:00", Format, Culture))
                     }
                 };
 
@@ -524,15 +474,19 @@ namespace AlgorithmLibrary.Tests
                 {
                     new[]
                     {
-                        (TimeSpan.ParseExact("05:00", Format, Culture), TimeSpan.ParseExact("12:30", Format, Culture)),
-                        (TimeSpan.ParseExact("13:00", Format, Culture), TimeSpan.ParseExact("14:00", Format, Culture)),
-                        (TimeSpan.ParseExact("15:00", Format, Culture), TimeSpan.ParseExact("18:30", Format, Culture))
+                        (TimeSpan.ParseExact("05:00", Format, Culture),
+                            TimeSpan.ParseExact("12:30", Format, Culture)),
+                        (TimeSpan.ParseExact("13:00", Format, Culture),
+                            TimeSpan.ParseExact("14:00", Format, Culture)),
+                        (TimeSpan.ParseExact("15:00", Format, Culture),
+                            TimeSpan.ParseExact("18:30", Format, Culture))
                     },
                     (TimeSpan.ParseExact("07:00", Format, Culture), TimeSpan.ParseExact("16:00", Format, Culture)),
                     TimeSpan.ParseExact("1", "%h", Culture),
                     new[]
                     {
-                        (TimeSpan.ParseExact("14:00", Format, Culture), TimeSpan.ParseExact("15:00", Format, Culture))
+                        (TimeSpan.ParseExact("14:00", Format, Culture),
+                            TimeSpan.ParseExact("15:00", Format, Culture))
                     }
                 };
             }
@@ -543,8 +497,8 @@ namespace AlgorithmLibrary.Tests
         [DataRow("#2. Should return true", 2, 1, 3, false, true)]
         [DataRow("#3. Should return true", 2, 1, 2, true, true)]
         [DataRow("#4. Should return false", 2, 1, 2, false, false)]
-        public void IsBetweenTest(string testCaseDescription, int valueToCheck, int start, int end,
-            bool isInclusive, bool expected)
+        public void IsBetweenTest(string testCaseDescription, int valueToCheck, int start, int end, bool isInclusive,
+            bool expected)
         {
             var actual = valueToCheck.IsBetween(start, end, isInclusive);
             Assert.AreEqual(expected, actual);

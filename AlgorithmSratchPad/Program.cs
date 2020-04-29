@@ -22,7 +22,8 @@ namespace AlgorithmSratchPad
             //ModifiedArray(numbers);
 
             //Console.WriteLine(string.Join(",", numbers));
-            TimeFrameTest();
+            //TimeFrameTest();
+            LinqTest();
         }
 
         private static void ModifiedArray(List<int> numbers)
@@ -95,6 +96,53 @@ namespace AlgorithmSratchPad
             var resultI = listA.Intersect(listB);
 
             Console.WriteLine(timeFrame6.ToString("TS", null));
+        }
+
+        private static void LinqTest()
+        {
+            var testClasses = new List<TestClass>
+            {
+                new TestClass(3)
+                {
+                    CGROUP1 = "CGROUP1",
+                    CGROUP2 = "CGROUP2"
+                },
+                new TestClass(2)
+                {
+                    CGROUP1 = "ABC"
+                },
+                new TestClass(1),
+            };
+
+            var pcIPGroup1 = string.Empty;
+
+            var query = testClasses.FirstOrDefault(t =>
+                (pcIPGroup1 == string.Empty || string.IsNullOrWhiteSpace(t.CGROUP1)) &&
+                string.IsNullOrWhiteSpace(t.CGROUP2));
+
+            var test = query.ToString();
+        }
+
+        private class TestClass
+        {
+            public int ID { get; }
+            public string CGROUP1 { get; set; } = string.Empty;
+            public string CGROUP2 { get; set; } = string.Empty;
+
+            public TestClass(int id)
+            {
+                ID = id;
+            }
+
+            public bool BooleanTest()
+            {
+                //if (true) return true else if (true) return true else return false;
+                var conditionA = false;
+                var conditionB = false;
+                var conditionC = false;
+                var boolResult = conditionA ? true : conditionB ? true : conditionC;
+                return boolResult;
+            }
         }
     }
 }

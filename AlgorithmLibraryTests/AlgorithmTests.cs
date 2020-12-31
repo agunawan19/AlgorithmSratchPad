@@ -1,50 +1,17 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using AlgorithmLibrary;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AlgorithmLibrary.Algorithm;
-using System.Text.Json;
 using System.Globalization;
-using System.Security.Cryptography;
+using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static AlgorithmLibrary.Algorithm;
 
-namespace AlgorithmLibrary.Tests
+namespace AlgorithmLibraryTests
 {
     [TestClass]
     public class AlgorithmTests
     {
         private const string Format = @"hh\:mm";
         private static readonly CultureInfo Culture = System.Globalization.CultureInfo.CurrentCulture;
-
-        [DataTestMethod]
-        [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
-        public void GetPivotIndexes_Returns_Correct_Indexes(int[] arr, int[] expected)
-        {
-            var actual = GetPivotIndexes(arr);
-
-            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual));
-            CollectionAssert.AreEqual(expected, actual);
-        }
-
-        private static IEnumerable<object[]> PivotIndexesTestData
-        {
-            get
-            {
-                yield return new object[] { new[] { 1, 1 }, new[] { -1 } };
-                yield return new object[] { new[] { 1, 3, 2 }, new[] { -1 } };
-                yield return new object[] { new[] { 1, 2, 3, 1, 1, 1, 2, 2, 1 }, new[] { -1 } };
-                yield return new object[] { new[] { 1 }, new[] { 0 } };
-                yield return new object[] { new[] { 3, 2, 1, 2 }, new[] { 1 } };
-                yield return new object[] { new[] { 1, 2, 0, 3 }, new[] { 2 } };
-                yield return new object[] { new[] { 1, 2, 1, 2, 1, 6 }, new[] { 4 } };
-                yield return new object[] { new[] { 2, 3, 4, 1, 4, 5 }, new[] { 3 } };
-                yield return new object[] { new[] { 1, 2, 6, 4, 0, -1 }, new[] { 2 } };
-                yield return new object[] { new[] { 2, 1, 3, 1, 9, 2, 2, 1, 2 }, new[] { 4 } };
-                yield return new object[] { new[] { 1, 2, 3, 0, 0, 3, 2, 1 }, new[] { 3, 4 } };
-            }
-        }
 
         [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
         public void IntersectWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)

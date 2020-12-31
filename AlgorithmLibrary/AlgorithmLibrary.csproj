@@ -45,6 +45,8 @@
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
     <Compile Include="IRange.cs" />
+    <Compile Include="MedianOfTwoSortedArrays.cs" />
+    <Compile Include="PivotIndex.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
   </ItemGroup>

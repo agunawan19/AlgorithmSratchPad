@@ -1,35 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Sockets;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AlgorithmLibrary
 {
     public static class Algorithm
     {
-        public static int[] GetPivotIndexes(int[] arr)
-        {
-            if (arr.Length == 1) return new int[1];
-            if (arr.Length < 3) return new[] { -1 };
-
-            var pivotIndexes = new List<int>();
-            var leftSum = 0;
-            var rightSum = arr.Skip(1).Aggregate((acc, n) => acc + n);
-
-            for (int i = 0, j = 1; j < arr.Length; i++, j++)
-            {
-                rightSum -= arr[j];
-                leftSum += arr[i];
-
-                if (leftSum == rightSum) pivotIndexes.Add(j);
-            }
-
-            return pivotIndexes.Count == 0 ? new[] { -1 } : pivotIndexes.ToArray();
-        }
-
         public static bool IntersectWith(this int[] reference, int[] other) =>
             reference[0] < other[1] && reference[1] > other[0];
 

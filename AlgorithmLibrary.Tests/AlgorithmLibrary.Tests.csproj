@@ -88,6 +88,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlgorithmTests.cs" />
+    <Compile Include="BestTimeToBuyAndSellStock1Tests.cs" />
+    <Compile Include="BestTimeToBuyAndSellStock2Tests.cs" />
     <Compile Include="MedianOfTwoSortedArraysTests.cs" />
     <Compile Include="PivotIndexTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

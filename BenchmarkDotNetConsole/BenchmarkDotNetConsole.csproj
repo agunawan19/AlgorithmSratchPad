@@ -253,6 +253,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benchmarks\BenchmarkBase.cs" />
+    <Compile Include="Benchmarks\BestTimeToBuyAndSellStock1.cs" />
+    <Compile Include="Benchmarks\BestTimeToBuyAndSellStock2.cs" />
     <Compile Include="Benchmarks\GetPivotIndexesBenchmark.cs" />
     <Compile Include="Benchmarks\IsEvenBenchmark.cs" />
     <Compile Include="Benchmarks\ListVsParams.cs" />

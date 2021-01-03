@@ -7,7 +7,7 @@ namespace BenchmarkDotNetConsole
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<ListVsParams>();
+            BenchmarkRunner.Run<BestTimeToBuyAndSellStock2Benchmark>();
         }
     }
 }

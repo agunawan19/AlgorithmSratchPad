@@ -4,16 +4,17 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static AlgorithmLibrary.Algorithm;
+// ReSharper disable ExpressionIsAlwaysNull
 
-namespace AlgorithmLibraryTests
+namespace AlgorithmLibrary.Tests
 {
     [TestClass]
     public class AlgorithmTests
     {
         private const string Format = @"hh\:mm";
-        private static readonly CultureInfo Culture = System.Globalization.CultureInfo.CurrentCulture;
+        private static readonly CultureInfo Culture = CultureInfo.CurrentCulture;
 
-        [DynamicData(nameof(IntersectWithTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntersectWithTestData))]
         public void IntersectWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)
         {
             var actual = reference.IntersectWith(other);
@@ -34,7 +35,7 @@ namespace AlgorithmLibraryTests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(IntersectWithTimeSpanTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntersectWithTimeSpanTestData))]
         public void IntersectWith_TimeSpan_Returns_Correct_Result(TimeSpan[] reference, TimeSpan[] other, bool expected)
         {
             var (referenceFrom, referenceTo) = (reference[0], reference[1]);
@@ -183,7 +184,7 @@ namespace AlgorithmLibraryTests
         //}
 
         [DataTestMethod]
-        [DynamicData(nameof(GetIntersectionValuePairTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntersectionValuePairTestData))]
         public void GetIntersectionValuePair_Returns_Correct_Result(int[] reference, int[] other, int[] expected)
         {
             var actual = GetIntersectionValuePair(reference, other);
@@ -192,7 +193,7 @@ namespace AlgorithmLibraryTests
                 $"{string.Join(",", reference)} <-> {string.Join(",", other)}");
         }
 
-        private static IEnumerable<object[]> GetIntersectionValuePairTestData
+        private static IEnumerable<object[]> IntersectionValuePairTestData
         {
             get
             {
@@ -206,7 +207,7 @@ namespace AlgorithmLibraryTests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(GetIntersectionValuePairOfIntegerTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntersectionValuePairOfIntegerTestData))]
         public void GetIntersectionValuePair_Of_Integer_Returns_Correct_Result((int From, int To) reference,
             (int From, int To) other, (int From, int To)? expected)
         {
@@ -215,7 +216,7 @@ namespace AlgorithmLibraryTests
             Assert.AreEqual(expected, actual);
         }
 
-        public static IEnumerable<object[]> GetIntersectionValuePairOfIntegerTestData
+        public static IEnumerable<object[]> IntersectionValuePairOfIntegerTestData
         {
             get
             {
@@ -229,7 +230,7 @@ namespace AlgorithmLibraryTests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(GetIntersectionValuePairOfTimeSpanTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntersectionValuePairOfTimeSpanTestData))]
         public void GetIntersectionValuePair_Of_TimeSpan_Returns_Correct_Result((TimeSpan From, TimeSpan To) reference,
             (TimeSpan From, TimeSpan To) other, (TimeSpan From, TimeSpan To)? expected)
         {
@@ -238,7 +239,7 @@ namespace AlgorithmLibraryTests
             Assert.AreEqual(expected, actual);
         }
 
-        private static IEnumerable<object[]> GetIntersectionValuePairOfTimeSpanTestData
+        private static IEnumerable<object[]> IntersectionValuePairOfTimeSpanTestData
         {
             get
             {
@@ -282,7 +283,7 @@ namespace AlgorithmLibraryTests
             (TimeSpan.ParseExact(time.From, Format, Culture), TimeSpan.ParseExact(time.To, Format, Culture));
 
         [DataTestMethod]
-        [DynamicData(nameof(GetIntersectionsTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(IntersectionsTestData))]
         public void GetIntersections_Returns_Correct_Result(int[][][] arr, int[][] expected)
         {
             var actual = GetIntersections(arr);
@@ -295,7 +296,7 @@ namespace AlgorithmLibraryTests
             Assert.AreEqual(processedExpected, processedActual);
         }
 
-        private static IEnumerable<object[]> GetIntersectionsTestData
+        private static IEnumerable<object[]> IntersectionsTestData
         {
             get
             {
@@ -378,17 +379,18 @@ namespace AlgorithmLibraryTests
         }
 
         [DataTestMethod]
-        [DynamicData(nameof(GetOpenTimeFramesTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(OpenTimeFramesTestData))]
         public void GetOpenTimeFrames_Returns_Correct_Result(IEnumerable<(TimeSpan, TimeSpan)> dailyEvents,
             (TimeSpan, TimeSpan) dailySchedule, TimeSpan allocatedTime, IEnumerable<(TimeSpan, TimeSpan)> expected)
         {
             var actual = GetOpenTimeFrames(dailyEvents, dailySchedule, allocatedTime).ToList();
 
-            Assert.AreEqual(string.Join(",", expected), string.Join(",", actual));
-            CollectionAssert.AreEqual(expected.ToList(), actual);
+            var expectedList = expected.ToList();
+            Assert.AreEqual(string.Join(",", expectedList), string.Join(",", actual));
+            CollectionAssert.AreEqual(expectedList.ToList(), actual);
         }
 
-        private static IEnumerable<object[]> GetOpenTimeFramesTestData
+        private static IEnumerable<object[]> OpenTimeFramesTestData
         {
             get
             {
@@ -469,6 +471,44 @@ namespace AlgorithmLibraryTests
         {
             var actual = valueToCheck.IsBetween(start, end, isInclusive);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestCategory("Merge")]
+        [TestMethod]
+        [DynamicData(nameof(MergeTestData))]
+        public void Merge_Returns_ExpectedResult(int[] nums1, int[] nums2, bool isDistinct, int[] expected)
+        {
+            var actual = nums1.Merge(nums2, isDistinct).ToArray();
+            CollectionAssert.AreEqual(expected, actual);
+        }
+
+        private static IEnumerable<object[]> MergeTestData
+        {
+            get
+            {
+                yield return new object[] { new[] { 1, 2, 3 }, new[] { 4, 5, 6 }, false, new[] { 1, 2, 3, 4, 5, 6 } };
+                yield return new object[] { new[] { 1, 2, 3, 4 }, new[] { 4, 5, 6, 3 }, true, new[] { 1, 2, 3, 4, 5, 6 } };
+            }
+        }
+
+        [TestCategory("Merge")]
+        [TestMethod]
+        public void Merge_Throws_Source_ArgumentNullException_()
+        {
+            int[] source = null;
+            var other = new[] { 3, 4, 5 };
+
+            Assert.ThrowsException<ArgumentNullException>(() => source.Merge<int>(other));
+        }
+
+        [TestCategory("Merge")]
+        [TestMethod]
+        public void Merge_Throws_Other_ArgumentNullException()
+        {
+            var source = new[] { 1, 2, 3 };
+            int[] other = null;
+
+            Assert.ThrowsException<ArgumentNullException>(() => source.Merge<int>(other));
         }
     }
 }

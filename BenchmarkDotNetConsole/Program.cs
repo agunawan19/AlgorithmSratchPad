@@ -7,7 +7,7 @@ namespace BenchmarkDotNetConsole
     {
         static void Main(string[] args)
         {
-            BenchmarkRunner.Run<GetPivotIndexesBenchmark>();
+            BenchmarkRunner.Run<ListVsParams>();
         }
     }
 }

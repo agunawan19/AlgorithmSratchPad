@@ -254,6 +254,8 @@
   <ItemGroup>
     <Compile Include="Benchmarks\BenchmarkBase.cs" />
     <Compile Include="Benchmarks\GetPivotIndexesBenchmark.cs" />
+    <Compile Include="Benchmarks\IsEvenBenchmark.cs" />
+    <Compile Include="Benchmarks\ListVsParams.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

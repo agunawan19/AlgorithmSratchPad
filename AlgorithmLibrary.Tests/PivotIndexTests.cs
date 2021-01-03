@@ -2,13 +2,13 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using static AlgorithmLibrary.PivotIndex;
 
-namespace AlgorithmLibraryTests
+namespace AlgorithmLibrary.Tests
 {
     [TestClass]
     public class PivotIndexTests
     {
         [DataTestMethod]
-        [DynamicData(nameof(PivotIndexesTestData), DynamicDataSourceType.Property)]
+        [DynamicData(nameof(PivotIndexesTestData))]
         public void GetPivotIndexes_Returns_Correct_Indexes(int[] arr, int[] expected)
         {
             var actual = GetPivotIndexes(arr);

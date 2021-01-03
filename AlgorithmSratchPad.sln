@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmSratchPad", "Algor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmLibrary", "AlgorithmLibrary\AlgorithmLibrary.csproj", "{C31F8458-2080-4771-AB53-5B08A87A8617}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmLibraryTests", "AlgorithmLibraryTests\AlgorithmLibraryTests.csproj", "{BBDC0336-4125-4334-95AF-E2A2C249B08E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgorithmLibrary.Tests", "AlgorithmLibrary.Tests\AlgorithmLibrary.Tests.csproj", "{BBDC0336-4125-4334-95AF-E2A2C249B08E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{89842304-8C5B-49AD-B65D-78198AC3B740}"
 	ProjectSection(SolutionItems) = preProject

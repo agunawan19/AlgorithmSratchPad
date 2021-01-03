@@ -151,5 +151,24 @@ namespace AlgorithmLibrary
             toPropertyInfo.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>)
                 ? Nullable.GetUnderlyingType(toPropertyInfo.PropertyType)
                 : toPropertyInfo.PropertyType;
+
+        public static int[] Merge(this int[] source, int[] other)
+        {
+            var all = new int[source.Length + other.Length];
+            Buffer.BlockCopy(source, 0, all, 0, source.Length * sizeof(int));
+            Buffer.BlockCopy(other, 0, all, source.Length * sizeof(int), other.Length * sizeof(int));
+
+            return all;
+        }
+
+        public static IEnumerable<T> Merge<T>(this IEnumerable<T> source, IEnumerable<T> other, bool isDistinct = false)
+            where T : IComparable<T>
+        {
+            const string argumentExceptionMsg = "{0} cannot be null";
+            if (source == null) throw new ArgumentNullException(string.Format(argumentExceptionMsg, nameof(source)));
+            if (other == null) throw new ArgumentNullException(string.Format(argumentExceptionMsg, nameof(other)));
+
+            return isDistinct ? source.Union(other) : source.Concat(other);
+        }
     }
 }

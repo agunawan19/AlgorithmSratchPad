@@ -493,7 +493,7 @@ namespace AlgorithmLibrary.Tests
 
         [TestCategory("Merge")]
         [TestMethod]
-        public void Merge_Throws_Source_ArgumentNullException_()
+        public void Merge_Throws_Source_ArgumentNullException()
         {
             int[] source = null;
             var other = new[] { 3, 4, 5 };

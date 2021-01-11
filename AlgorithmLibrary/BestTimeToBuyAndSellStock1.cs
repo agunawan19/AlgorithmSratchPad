@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AlgorithmLibrary
+﻿namespace AlgorithmLibrary
 {
     /// <summary>
     /// Say you have an array for which the ith element is the price of a given stock on day i.
@@ -53,7 +51,7 @@ namespace AlgorithmLibrary
         /// <returns>Max profit</returns>
         public static int MaxProfitOnePass(int[] prices)
         {
-            int minPrice = Int32.MaxValue;
+            int minPrice = int.MaxValue;
             int maxProfit = 0;
 
             foreach (var price in prices)

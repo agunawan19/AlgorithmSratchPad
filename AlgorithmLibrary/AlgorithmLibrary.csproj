@@ -46,6 +46,7 @@
     <Compile Include="Algorithm.cs" />
     <Compile Include="BestTimeToBuyAndSellStock1.cs" />
     <Compile Include="BestTimeToBuyAndSellStock2.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="IRange.cs" />
     <Compile Include="MedianOfTwoSortedArrays.cs" />
     <Compile Include="PivotIndex.cs" />

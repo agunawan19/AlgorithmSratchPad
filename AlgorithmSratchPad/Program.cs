@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AlgorithmLibrary;
+using AlgorithmLibrary.Extensions;
 
 namespace AlgorithmSratchPad
 {
@@ -23,7 +24,8 @@ namespace AlgorithmSratchPad
 
             //Console.WriteLine(string.Join(",", numbers));
             //TimeFrameTest();
-            LinqTest();
+            //LinqTest();
+            var test = "a:b".SplitToKeyValuePair(null);
         }
 
         private static void ModifiedArray(List<int> numbers)

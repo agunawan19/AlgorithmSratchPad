@@ -11,6 +11,13 @@ namespace AlgorithmSratchPad
 {
     internal static class Program
     {
+        private class Employee
+        {
+            public int Id { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+        }
+
         private static void Main(string[] args)
         {
             //TimeSpan from = new TimeSpan(1, 0, 0);
@@ -25,7 +32,20 @@ namespace AlgorithmSratchPad
             //Console.WriteLine(string.Join(",", numbers));
             //TimeFrameTest();
             //LinqTest();
-            var test = "a:b".SplitToKeyValuePair(null);
+            //var test = "a:b".SplitToKeyValuePair(null);
+            var employee = new Employee() {Id = 0, FirstName = "EmpZero", LastName = "Zero"};
+            var employees = new List<Employee>();
+
+            var updateList = new List<(int, string, string)> {(1, "EmpOne", "One"), (2, "EmpTwo", "Two")};
+
+            foreach (var employeeUpdate in updateList)
+            {
+                employee.Id = employeeUpdate.Item1;
+                employee.FirstName = employeeUpdate.Item2;
+                employee.LastName = employeeUpdate.Item3;
+                
+                employees.Add(employee);
+            }
         }
 
         private static void ModifiedArray(List<int> numbers)

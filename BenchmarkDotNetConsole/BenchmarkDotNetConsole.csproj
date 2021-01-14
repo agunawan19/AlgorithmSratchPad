@@ -258,6 +258,7 @@
     <Compile Include="Benchmarks\GetPivotIndexesBenchmark.cs" />
     <Compile Include="Benchmarks\IsEvenBenchmark.cs" />
     <Compile Include="Benchmarks\ListVsParams.cs" />
+    <Compile Include="Benchmarks\StringContainsVsHashSetBenchmark.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -258,6 +258,7 @@
     <Compile Include="Benchmarks\GetPivotIndexesBenchmark.cs" />
     <Compile Include="Benchmarks\IsEvenBenchmark.cs" />
     <Compile Include="Benchmarks\ListVsParams.cs" />
+    <Compile Include="Benchmarks\PriorityQueueListVsLinkedList.cs" />
     <Compile Include="Benchmarks\StringContainsVsHashSetBenchmark.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -274,6 +275,10 @@
     <ProjectReference Include="..\AlgorithmLibrary\AlgorithmLibrary.csproj">
       <Project>{c31f8458-2080-4771-ab53-5b08a87a8617}</Project>
       <Name>AlgorithmLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AlgorithmScratchPad\AlgorithmScratchPad.csproj">
+      <Project>{3e3fc863-608b-4797-89d0-823a24f1483c}</Project>
+      <Name>AlgorithmScratchPad</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

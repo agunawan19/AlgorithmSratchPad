@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{3E3FC863-608B-4797-89D0-823A24F1483C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>AlgorithmSratchPad</RootNamespace>
-    <AssemblyName>AlgorithmSratchPad</AssemblyName>
+    <RootNamespace>AlgorithmScratchPad</RootNamespace>
+    <AssemblyName>AlgorithmScratchPad</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Employee.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -55,6 +56,10 @@
     <ProjectReference Include="..\AlgorithmLibrary\AlgorithmLibrary.csproj">
       <Project>{c31f8458-2080-4771-ab53-5b08a87a8617}</Project>
       <Name>AlgorithmLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FSharp\FSharp.fsproj">
+      <Project>{f8a64cd3-242d-44c3-a316-8a572c536c61}</Project>
+      <Name>FSharp</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -8,7 +8,7 @@ namespace AlgorithmLibrary.Extensions
     {
         public static (string, string) SplitToKeyValuePair(this string text, string separator)
         {
-            var texts = text?.Split(new[] {separator ?? string.Empty}, StringSplitOptions.None);
+            var texts = text?.Split(new[] {separator}, StringSplitOptions.None);
             
             return texts?.Length == 2 ? (texts[0], texts[1]) : throw new ArgumentException();
         }

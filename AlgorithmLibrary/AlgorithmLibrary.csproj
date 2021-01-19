@@ -44,8 +44,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithm.cs" />
-    <Compile Include="BestTimeToBuyAndSellStock1.cs" />
-    <Compile Include="BestTimeToBuyAndSellStock2.cs" />
+    <Compile Include="BestTimeToBuyAndSellStocks\BestTimeToBuyAndSellStock1.cs" />
+    <Compile Include="BestTimeToBuyAndSellStocks\BestTimeToBuyAndSellStock2.cs" />
     <Compile Include="Extensions\KeyValuePairExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Graph\Edge.cs" />

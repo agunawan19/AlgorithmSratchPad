@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using AlgorithmLibrary.BestTimeToBuyAndSellStocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace AlgorithmLibrary.Tests

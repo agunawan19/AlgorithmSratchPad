@@ -1,5 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
-using AlgorithmLibrary;
+using AlgorithmLibrary.BestTimeToBuyAndSellStocks;
 
 namespace BenchmarkDotNetConsole.Benchmarks
 {

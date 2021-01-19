@@ -1,4 +1,4 @@
-﻿namespace AlgorithmLibrary
+﻿namespace AlgorithmLibrary.BestTimeToBuyAndSellStocks
 {
     /// <summary>
     /// Say you have an array prices for which the ith element is the price of a given stock on day i.

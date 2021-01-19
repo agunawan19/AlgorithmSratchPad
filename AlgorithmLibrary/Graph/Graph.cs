@@ -46,7 +46,7 @@ namespace AlgorithmLibrary.Graph
             var sb = new StringBuilder();
             for (var i = 0; i < VertexCount; i++)
             {
-                sb.AppendFormat("{0} -> {1}", VertexAt(i), string.Join(",", NeighborsOf(i)));
+                sb.AppendFormat("{0} -> [{1}]", VertexAt(i), string.Join(", ", NeighborsOf(i)));
                 sb.Append(Environment.NewLine);
             }
 

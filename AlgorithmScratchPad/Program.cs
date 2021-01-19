@@ -26,8 +26,8 @@ namespace AlgorithmScratchPad
             //var numbers = new List<int> { 1, 2, 3 };
             //ModifiedArray(numbers);
 
-            //GraphUsageDemo();
-            PriorityQueueDemo();
+            GraphUsageDemo();
+            //PriorityQueueDemo();
         }
 
         private static void PriorityQueueDemo()
@@ -71,7 +71,8 @@ namespace AlgorithmScratchPad
                 Console.WriteLine(pq.ToString());
                 Console.WriteLine("\n");
             }
-            
+
+            var test = pq.ToList();
 #if DEBUG
             Console.WriteLine("Testing the priority queue");
             TestPriorityQueue(50000);
@@ -121,9 +122,12 @@ namespace AlgorithmScratchPad
             };
 
             var values = Enum.GetValues(typeof(City)).Cast<City>().ToList();
-            var cityGraph = new UnweightedGraph<City>(values);
+            var unweightedCityGraph = new UnweightedGraph<City>(values);
+
+            var weightedCityGraph = new WeightedGraph<City>(values);
+            weightedCityGraph.GetMinimumSpanningTree(0);
             
-            cityGraph.AddEdges(new List<(City first, City second)>
+            unweightedCityGraph.AddEdges(new List<(City first, City second)>
             {
                 (City.Seattle, City.Chicago),
                 (City.Seattle, City.SanFrancisco),
@@ -152,8 +156,41 @@ namespace AlgorithmScratchPad
                 (City.NewYork, City.Philadelphia),
                 (City.Philadelphia, City.Washington)
             });
+            
+            weightedCityGraph.AddEdges(new List<(City first, City second, float weight)>
+            {
+                (City.Seattle, City.Chicago, 1737),
+                (City.Seattle, City.SanFrancisco, 678),
+                (City.SanFrancisco, City.Riverside, 386),
+                (City.SanFrancisco, City.LosAngeles, 348),
+                (City.LosAngeles, City.Riverside, 50),
+                (City.LosAngeles, City.Phoenix, 357),
+                (City.Riverside, City.Philadelphia, 307),
+                (City.Riverside, City.Chicago, 1704),
+                (City.Phoenix, City.Dallas, 887),
+                (City.Phoenix, City.Houston, 1015),
+                (City.Dallas, City.Chicago, 805),
+                (City.Dallas, City.Atlanta, 721),
+                (City.Dallas, City.Houston, 225),
+                (City.Houston, City.Atlanta, 702),
+                (City.Houston, City.Miami, 968),
+                (City.Atlanta, City.Chicago, 588),
+                (City.Atlanta, City.Washington, 543),
+                (City.Atlanta, City.Miami, 604),
+                (City.Miami, City.Washington, 923),
+                (City.Chicago, City.Detroit, 238),
+                (City.Detroit, City.Boston, 613),
+                (City.Detroit, City.Washington, 396),
+                (City.Detroit, City.NewYork, 482),
+                (City.Boston, City.NewYork, 190),
+                (City.NewYork, City.Philadelphia, 81),
+                (City.Philadelphia, City.Washington, 123)
+            });
 
-            Console.WriteLine(cityGraph.ToString());
+
+            Console.WriteLine(unweightedCityGraph.ToString());
+            
+            Console.WriteLine(weightedCityGraph.ToString());
         }
 
         private static void ModifiedArray(List<int> numbers) => numbers.RemoveAt(0);

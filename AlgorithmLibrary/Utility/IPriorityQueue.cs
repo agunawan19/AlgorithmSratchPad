@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace AlgorithmLibrary.Utility
 {
@@ -12,5 +11,8 @@ namespace AlgorithmLibrary.Utility
         int Count { get; }
         void Clear();
         bool Contains(T item);
+        T[] ToArray();
+        List<T> ToList();
+        bool IsEmpty();
     }
 }

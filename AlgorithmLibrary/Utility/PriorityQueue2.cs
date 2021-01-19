@@ -20,6 +20,13 @@ namespace AlgorithmLibrary.Utility
         public override void Clear() => PrioritizableItems.Clear();
         
         public override bool Contains(T item) => PrioritizableItems.Contains(item);
+        
+        public override T[] ToArray() => PrioritizableItems.ToArray();
+
+        public override List<T> ToList() => PrioritizableItems.ToList();
+        
+        public override bool IsEmpty() => (PrioritizableItems?.Count ?? 0) == 0;
+
 
         public override void EnqueueRange(IEnumerable<T> items)
         {

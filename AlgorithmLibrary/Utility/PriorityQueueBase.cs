@@ -13,6 +13,9 @@ namespace AlgorithmLibrary.Utility
         public abstract int Count { get; }
         public abstract void Clear();
         public abstract bool Contains(T item);
+        public abstract T[] ToArray();
+        public abstract List<T> ToList();
+        public abstract bool IsEmpty();
 
         public override string ToString()
         {

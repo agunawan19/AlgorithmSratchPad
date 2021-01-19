@@ -14,7 +14,7 @@ namespace AlgorithmScratchPad
             Priority = priority;
         }
 
-        public override string ToString() => $"({LastName}, {Priority:f1})";
+        public override string ToString() => $"({LastName}, {Priority:F1})";
 
         public int CompareTo(Employee other) =>
             other is null ? throw new ArgumentNullException($"{nameof(other)} cannot be null") :

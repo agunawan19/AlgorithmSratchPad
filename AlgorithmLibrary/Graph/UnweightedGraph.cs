@@ -20,7 +20,7 @@ namespace AlgorithmLibrary.Graph
         public void AddEdges(IEnumerable<(TVertex firstVertex, TVertex secondVertex)> edges)
         {
             foreach (var (firstVertex, secondVertex) in edges) 
-                AddEdge(new Edge(IndexOf(firstVertex), IndexOf(secondVertex)));
+                AddEdge(firstVertex, secondVertex);
         }
     }
 }

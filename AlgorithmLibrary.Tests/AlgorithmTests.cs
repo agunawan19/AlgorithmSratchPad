@@ -14,6 +14,7 @@ namespace AlgorithmLibrary.Tests
         private const string Format = @"hh\:mm";
         private static readonly CultureInfo Culture = CultureInfo.CurrentCulture;
 
+        [TestMethod]
         [DynamicData(nameof(IntersectWithTestData))]
         public void IntersectWith_Returns_Correct_Result(int[] reference, int[] other, bool expected)
         {

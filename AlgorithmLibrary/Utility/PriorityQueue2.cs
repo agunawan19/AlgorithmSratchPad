@@ -28,7 +28,6 @@ namespace AlgorithmLibrary.Utility
         
         public override bool IsEmpty() => (PrioritizableItems?.Count ?? 0) == 0;
 
-
         public override void EnqueueRange(IEnumerable<T> items)
         {
             foreach (var item in items) Enqueue(item);

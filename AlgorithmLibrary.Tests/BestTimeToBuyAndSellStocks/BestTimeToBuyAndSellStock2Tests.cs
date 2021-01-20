@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using AlgorithmLibrary.BestTimeToBuyAndSellStocks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace AlgorithmLibrary.Tests
+namespace AlgorithmLibrary.Tests.BestTimeToBuyAndSellStocks
 {
     [TestClass]
     public class BestTimeToBuyAndSellStock2Tests

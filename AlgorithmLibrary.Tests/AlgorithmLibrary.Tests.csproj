@@ -88,8 +88,8 @@
   </Choose>
   <ItemGroup>
     <Compile Include="AlgorithmTests.cs" />
-    <Compile Include="BestTimeToBuyAndSellStock1Tests.cs" />
-    <Compile Include="BestTimeToBuyAndSellStock2Tests.cs" />
+    <Compile Include="BestTimeToBuyAndSellStocks\BestTimeToBuyAndSellStock1Tests.cs" />
+    <Compile Include="BestTimeToBuyAndSellStocks\BestTimeToBuyAndSellStock2Tests.cs" />
     <Compile Include="Extensions\KeyValuePairExtensionsTests.cs" />
     <Compile Include="Extensions\StringExtensionsTests.cs" />
     <Compile Include="MedianOfTwoSortedArraysTests.cs" />

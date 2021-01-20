@@ -44,7 +44,7 @@ namespace BenchmarkDotNetConsole.Benchmarks
                 "LPT9"
             };
 
-            for (int i = 0; i < NumberOfLoop; i++) _randomFileNames.Add(Path.GetRandomFileName());
+            for (var i = 0; i < NumberOfLoop; i++) _randomFileNames.Add(Path.GetRandomFileName());
         }
 
         private static bool IsSafeFileNameStringContains1(string fileName)

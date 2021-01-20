@@ -26,8 +26,8 @@ namespace AlgorithmScratchPad
             //var numbers = new List<int> { 1, 2, 3 };
             //ModifiedArray(numbers);
 
-            GraphUsageDemo();
-            //PriorityQueueDemo();
+            //GraphUsageDemo();
+            PriorityQueueDemo();
         }
 
         private static void PriorityQueueDemo()

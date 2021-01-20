@@ -7,6 +7,7 @@ namespace AlgorithmLibrary.Utility
         void Enqueue(T item);
         void EnqueueRange(IEnumerable<T> items);
         T Dequeue();
+        List<T> Dequeue(int numberOfDequeue);
         T Peek();
         int Count { get; }
         void Clear();

@@ -30,7 +30,7 @@ namespace AlgorithmLibrary.Graph
         public override string ToString()
         {
             var sb = new StringBuilder();
-            for (int i = 0; i < VertexCount; i++)
+            for (var i = 0; i < VertexCount; i++)
             {
                 sb.AppendFormat("{0} -> [{1}]", VertexAt(i),
                     string.Join(", ", EdgesOf(i).Select(edge => $"({VertexAt(edge.V)}, {edge.Weight:F1})")));

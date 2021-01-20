@@ -29,12 +29,7 @@ namespace AlgorithmLibrary.Utility
                 childIndex = parentIndex;
             }
         }
-
-        public override void EnqueueRange(IEnumerable<T> items)
-        {
-            foreach (var item in items) Enqueue(item);
-        }
-
+        
         public override T Dequeue()
         {
             var lastIndex = PrioritizableItems.Count - 1;
@@ -80,7 +75,6 @@ namespace AlgorithmLibrary.Utility
         public override List<T> ToList() => PrioritizableItems;
         
         public override bool IsEmpty() => (PrioritizableItems?.Count ?? 0) == 0;
-        
 
 #if DEBUG
         public bool IsConsistent()

@@ -28,11 +28,6 @@ namespace AlgorithmLibrary.Utility
         
         public override bool IsEmpty() => (PrioritizableItems?.Count ?? 0) == 0;
 
-        public override void EnqueueRange(IEnumerable<T> items)
-        {
-            foreach (var item in items) Enqueue(item);
-        }
-
         public override T Dequeue()
         {
             if (!PrioritizableItems.Any()) return default;
@@ -40,7 +35,7 @@ namespace AlgorithmLibrary.Utility
             PrioritizableItems.RemoveFirst();
             return removedItem;
         }
-
+        
         public override void Enqueue(T item)
         {
             var newNode = new LinkedListNode<T>(item);

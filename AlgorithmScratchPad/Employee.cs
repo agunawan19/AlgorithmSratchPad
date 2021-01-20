@@ -1,5 +1,4 @@
-﻿using System;
-using AlgorithmLibrary.Utility;
+﻿using AlgorithmLibrary.Utility;
 
 namespace AlgorithmScratchPad
 {
@@ -16,6 +15,6 @@ namespace AlgorithmScratchPad
 
         public override string ToString() => $"({LastName}, {Priority:F1})";
 
-        public int CompareTo(Employee other) => Priority.CompareTo(other.Priority);
+        public int CompareTo(Employee other) => Priority.CompareTo(other?.Priority);
     }
 }

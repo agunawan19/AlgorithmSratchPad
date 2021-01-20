@@ -15,7 +15,7 @@ namespace AlgorithmLibrary.Extensions
 
         public static Dictionary<string, string> ToDictionary(this string text, string keyValueSeparator = ":", string itemSeparator = ",")
         {
-            var keyValuePairs = (text ?? string.Empty).Split(new string[] { itemSeparator }, StringSplitOptions.RemoveEmptyEntries);
+            var keyValuePairs = (text ?? string.Empty).Split(new[] { itemSeparator }, StringSplitOptions.RemoveEmptyEntries);
             var itemMap = new Dictionary<string, string>();
 
             if (!keyValuePairs.Any()) return itemMap;

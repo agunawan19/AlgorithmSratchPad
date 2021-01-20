@@ -19,7 +19,11 @@ namespace AlgorithmLibrary.Utility
         {
             var result = new List<T>();
 
-            for (var i = 0; i < numberOfDequeue; i++) result.Add(Dequeue());
+            for (var i = 0; i < numberOfDequeue; i++)
+            {
+                var removedItem = Dequeue();
+                if (removedItem is not null) result.Add(Dequeue());
+            }
 
             return result;
         }

@@ -32,6 +32,8 @@ namespace AlgorithmLibrary.Utility
         
         public override T Dequeue()
         {
+            if (PrioritizableItems.Count == 0) return default;
+            
             var lastIndex = PrioritizableItems.Count - 1;
             T removedItem = PrioritizableItems[0];
             PrioritizableItems[0] = PrioritizableItems[lastIndex];

@@ -123,10 +123,8 @@ namespace AlgorithmScratchPad
 
             var values = Enum.GetValues(typeof(City)).Cast<City>().ToList();
             var unweightedCityGraph = new UnweightedGraph<City>(values);
-
             var weightedCityGraph = new WeightedGraph<City>(values);
-            weightedCityGraph.GetMinimumSpanningTree(0);
-            
+
             unweightedCityGraph.AddEdges(new List<(City first, City second)>
             {
                 (City.Seattle, City.Chicago),
@@ -165,7 +163,7 @@ namespace AlgorithmScratchPad
                 (City.SanFrancisco, City.LosAngeles, 348),
                 (City.LosAngeles, City.Riverside, 50),
                 (City.LosAngeles, City.Phoenix, 357),
-                (City.Riverside, City.Philadelphia, 307),
+                (City.Riverside, City.Phoenix, 307),
                 (City.Riverside, City.Chicago, 1704),
                 (City.Phoenix, City.Dallas, 887),
                 (City.Phoenix, City.Houston, 1015),
@@ -187,10 +185,24 @@ namespace AlgorithmScratchPad
                 (City.Philadelphia, City.Washington, 123)
             });
 
-
             Console.WriteLine(unweightedCityGraph.ToString());
-            
             Console.WriteLine(weightedCityGraph.ToString());
+            var result = weightedCityGraph.GetMinimumSpanningTree(0);
+            weightedCityGraph.PrintWeightedPath(result);
+            
+            Console.WriteLine();
+
+            var dijkstraResult = weightedCityGraph.GetDijkstraResult(City.LosAngeles);
+            var nameDistance = weightedCityGraph.DistanceArrayToDistanceMap(dijkstraResult.Distances);
+            Console.WriteLine($"Distances from {nameof(City.LosAngeles)}:");
+            foreach (var (name, distance) in nameDistance) Console.WriteLine($"{name.ToString()} : {distance:F1}");
+            
+            Console.WriteLine();
+            
+            Console.WriteLine($"Shortest path from {nameof(City.LosAngeles)} to {nameof(City.Boston)}");
+            var path = WeightedGraph<City>.PathMapToPath(weightedCityGraph.IndexOf(City.LosAngeles),
+                weightedCityGraph.IndexOf(City.Boston), dijkstraResult.PathMap);
+            weightedCityGraph.PrintWeightedPath(path);
         }
 
         private static void ModifiedArray(List<int> numbers) => numbers.RemoveAt(0);

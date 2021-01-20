@@ -1,6 +1,6 @@
 ﻿namespace AlgorithmLibrary.Graph
 {
-    public class Edge
+    public class Edge : IEdge
     {
         public int U { get; }
         public int V { get; }

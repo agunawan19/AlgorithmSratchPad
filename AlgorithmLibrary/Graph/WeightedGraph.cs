@@ -40,7 +40,7 @@ namespace AlgorithmLibrary.Graph
             return sb.ToString();
         }
 
-        public static double TotalWeight(List<WeightedEdge> path) => path.Sum(edge => edge.Weight);
+        public static double TotalWeight(IEnumerable<WeightedEdge> path) => path.Sum(edge => edge.Weight);
 
         /// <summary>
         /// Find the minimum-spanning tree of this graph using Jarnik's algorithm
@@ -50,26 +50,14 @@ namespace AlgorithmLibrary.Graph
         public List<WeightedEdge> GetMinimumSpanningTree(int start)
         {
             var result = new List<WeightedEdge>();
-            
+           
             if (start < 0 || start > (VertexCount - 1)) return result;
 
             var pq = new PriorityQueue<WeightedEdge>();
             
             var visited = new bool[VertexCount];
 
-            // var visit = new Action<int>((int index) =>
-            // {
-            //     visited[index] = true;
-            //
-            //     foreach (var edge in EdgesOf(index).Where(edge => !visited[edge.V])) pq.Enqueue(edge);
-            // });
-
-            for (int i = 0; i < visited.Length; i++)
-            {
-                visited[i] = true;
-                foreach (var edge in EdgesOf(i).Where(edge => !visited[edge.V])) pq.Enqueue(edge);
-            }
-
+            Visit(start);
             while (!pq.IsEmpty())
             {
                 WeightedEdge edge = pq.Dequeue();
@@ -77,10 +65,84 @@ namespace AlgorithmLibrary.Graph
                 if (visited[edge.V]) continue;
                 
                 result.Add(edge);
+                Visit(edge.V);
+            }
+            
+            return result;
+            
+            void Visit(int index)
+            {
+                visited[index] = true;
+                foreach (var edge in EdgesOf(index).Where(edge => !visited[edge.V])) pq.Enqueue(edge);
+            }
+        }
+
+        public void PrintWeightedPath(List<WeightedEdge> weightedEdges)
+        {
+            foreach (var edge in weightedEdges)
+                Console.WriteLine($"{VertexAt(edge.U)} {edge.Weight:F1}> {VertexAt(edge.V)}");
+
+            Console.WriteLine($"Total Weight: {TotalWeight(weightedEdges):F1}");
+        }
+
+        public DijkstraResult GetDijkstraResult(TVertex root)
+        {
+            var first = IndexOf(root);
+            var distances = new double[VertexCount];
+            distances[first] = 0;
+            var visited = new bool[VertexCount];
+            visited[first] = true;
+            var pathMap = new Dictionary<int, WeightedEdge>();
+            var pq = new PriorityQueue<DijkstraNode>();
+            pq.Enqueue(new DijkstraNode(first, 0));
+
+            while (!pq.IsEmpty())
+            {
+                var u = pq.Dequeue().Vertex;
+                var distU = distances[u];
+
+                foreach (var edge in EdgesOf(u))
+                {
+                    var distV = distances[edge.V];
+                    var pathWeight = edge.Weight + distU;
+                    if (visited[edge.V] && (distV < pathWeight)) continue;
+
+                    visited[edge.V] = true;
+                    distances[edge.V] = pathWeight;
+                    pathMap[edge.V] = edge;
+                    pq.Enqueue(new DijkstraNode(edge.V, pathWeight));
+                }
+            }
+                
+            return new DijkstraResult(distances, pathMap);
+        }
+
+        public Dictionary<TVertex, double> DistanceArrayToDistanceMap(double[] distances)
+        {
+            var distanceMap = new Dictionary<TVertex, double>();
+           
+            for (var i = 0; i < distances.Length; i++) 
+                distanceMap[VertexAt(i)] = distances[i];
+
+            return distanceMap;
+        }
+
+        public static List<WeightedEdge> PathMapToPath(int start, int end, Dictionary<int, WeightedEdge> pathMap)
+        {
+            if (!pathMap.Any()) return new List<WeightedEdge>();
+            var path = new List<WeightedEdge>();
+            var edge = pathMap[end];
+            path.Add(edge);
+
+            while (edge.U != start)
+            {
+                edge = pathMap[edge.U];
+                path.Add(edge);
             }
 
-            return result;
+            path.Reverse();
+            
+            return path;
         }
-        
     }
 }

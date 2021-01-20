@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace AlgorithmLibrary.Utility
 {
-    public class PriorityQueue2<T> : PriorityQueueBase<T> where T : IPrioritizable<T>
+    public class PriorityQueue2<T> : PriorityQueueBase<T> where T : IComparable<T>
     {
         private LinkedList<T> PrioritizableItems { get; }
 
@@ -48,10 +49,10 @@ namespace AlgorithmLibrary.Utility
             switch (PrioritizableItems.First)
             {
                 case { } pointerNode:
-                    while (pointerNode.Next != null && pointerNode.Value.Priority < item.Priority)
+                    while (pointerNode.Next != null && pointerNode.Value.CompareTo(item) == -1)
                         pointerNode = pointerNode.Next;
 
-                    if (pointerNode.Value.Priority <= item.Priority)
+                    if (new[] {-1, 0}.Contains(pointerNode.Value.CompareTo(item)))
                         PrioritizableItems.AddAfter(pointerNode, newNode);
                     else
                         PrioritizableItems.AddBefore(pointerNode, newNode);

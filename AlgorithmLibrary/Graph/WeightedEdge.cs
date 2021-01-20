@@ -12,6 +12,6 @@ namespace AlgorithmLibrary.Graph
 
         public int CompareTo(WeightedEdge other) => Weight.CompareTo(other?.Weight);
 
-        public override string ToString() => $"{U} {Weight} > {V}";
+        public override string ToString() => $"{U} {Weight}> {V}";
     }
 }

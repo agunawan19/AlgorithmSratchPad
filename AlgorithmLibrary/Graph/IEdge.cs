@@ -4,6 +4,5 @@
     {
         int U { get; }
         int V { get; }
-        IEdge Reversed();
     }
 }
